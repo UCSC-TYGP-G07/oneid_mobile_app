@@ -1,6 +1,9 @@
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:oneid_mobile_app/pages/profile.dart';
 import 'package:oneid_mobile_app/pages/dashboard.dart';
+import 'package:oneid_mobile_app/pages/one_id_wallet.dart';
+import 'package:oneid_mobile_app/pages/get_id.dart';
 
 class BottomNavBar extends StatelessWidget {
   const BottomNavBar({
@@ -64,6 +67,15 @@ class BottomNavBar extends StatelessWidget {
     switch (index) {
       case 0: // HomeScreen
         Navigator.push(context, MaterialPageRoute(builder: (context) => Dashboard()));
+        break;
+      case 1: // WalletScreen
+        Navigator.push(context, MaterialPageRoute(builder: (context) => Wallet()));
+        break;
+      case 2: // GetIDsScreen
+        Navigator.push(context, MaterialPageRoute(builder: (context) => GetIDs()));
+        break;
+      case 3: // ProfileScreen
+        Navigator.push(context, MaterialPageRoute(builder: (context) => Profile()));
         break;
       default:
         break;
