@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:oneid_mobile_app/components/button.dart';
+import 'package:oneid_mobile_app/components/button_blue.dart';
 import 'package:oneid_mobile_app/components/textfield.dart';
 import 'dashboard.dart';
 
@@ -70,7 +70,8 @@ class LoginPage extends StatelessWidget{
               //Login Button
               SizedBox(
                 width: 200,
-                child: MyButton(
+                child: BlueButton(
+                  buttonText: 'Login',
                   onTap: (){
                     Navigator.push(
                       context,
