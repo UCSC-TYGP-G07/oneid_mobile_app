@@ -28,10 +28,10 @@ class _GetIDs extends State<GetIDs>{
               //Progress Bar
               const SizedBox(height: 30,),
               ProgressBar(
-                step: 1,
+                step: 0,
               ),
               
-              const SizedBox(height: 20,),
+              const SizedBox(height: 10,),
               const Padding(
                 padding: EdgeInsets.only(left: 20),
                 child: Align(
