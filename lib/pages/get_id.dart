@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:oneid_mobile_app/components/bottom_nav_bar.dart';
 import 'package:oneid_mobile_app/components/button_blue.dart';
 import 'package:oneid_mobile_app/components/progress_bar.dart';
+import 'apply_dl.dart';
 
 class GetIDs extends StatefulWidget {
   GetIDs({Key? key}) : super(key: key);
@@ -33,11 +34,11 @@ class _GetIDs extends State<GetIDs>{
               
               const SizedBox(height: 10,),
               const Padding(
-                padding: EdgeInsets.only(left: 20),
+                padding: EdgeInsets.only(left: 10),
                 child: Align(
                   alignment: Alignment.center,
                   child: Text(
-                    'Select the personal identification document you need to apply for',
+                    'Select the personal identification \n document you need to apply for',
                     style: TextStyle(
                       color: const Color(0xFF27187E),
                       fontWeight: FontWeight.bold,
@@ -54,7 +55,12 @@ class _GetIDs extends State<GetIDs>{
                 child: BlueButton(
                   buttonText: 'Driving License',
                   onTap: (){
-                    
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ApplyDL(),
+                      ),
+                    );
                   },
                 ),
               ),
