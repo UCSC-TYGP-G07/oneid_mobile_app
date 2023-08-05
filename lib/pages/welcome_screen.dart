@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:oneid_mobile_app/components/button_blue.dart';
-import 'package:oneid_mobile_app/components/textfield.dart';
-import 'dashboard.dart';
+import 'package:oneid_mobile_app/components/button_white.dart';
+import 'login_page.dart';
 
-class LoginPage extends StatelessWidget{
-  LoginPage({super.key});
-
-  //Text editing controllers
-  final emailController = TextEditingController();
-  final passwordController = TextEditingController();
+class WelcomePage extends StatelessWidget{
+  WelcomePage({super.key});
 
   //Sign user in method
   void signUserIn(){
@@ -24,7 +20,7 @@ class LoginPage extends StatelessWidget{
           child: SingleChildScrollView(
             child: Column(
               children: [
-
+          
                 // Back button icon
                   Align(
                     alignment: Alignment.topLeft,
@@ -45,7 +41,6 @@ class LoginPage extends StatelessWidget{
                 ),
               
                 //Welcome Text
-                const SizedBox(height: 25),
                 Text(
                   'Welcome to OneID',
                   style: TextStyle(
@@ -55,48 +50,62 @@ class LoginPage extends StatelessWidget{
                   ),
                 ),
           
-                const SizedBox(height: 25),
-          
-                //Email textfield
-                MyTextField(
-                  controller: emailController,
-                  hintText: 'Email Address',
-                  obscureText: false,
-                ),
-          
-                const SizedBox(height: 25),
-          
-                //Password textfield
-                MyTextField(
-                  controller: passwordController,
-                  hintText: 'Password',
-                  obscureText: true,
-                ),
-          
-                const SizedBox(height: 25),
-          
-                //Forgot password text
-                const Text('Forgot Password?'),
-          
-                const SizedBox(height: 25),
+                const SizedBox(height: 15),
           
                 //Login Button
                 SizedBox(
-                  width: 200,
                   child: BlueButton(
                     buttonText: 'Login',
                     onTap: (){
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => Dashboard(),
+                          builder: (context) => LoginPage(),
                         ),
                       );
                     },
                   ),
                 ),
-
-                const SizedBox(height: 10),
+          
+                const SizedBox(height: 10,),
+                Text(
+                  'OR',
+                  style: TextStyle(
+                    color: Colors.grey.shade700,
+                    fontSize: 12,
+                  ),
+                ),
+          
+                //Verify ID Button
+                const SizedBox(height: 10,),
+                SizedBox(
+                  child: BlueButton(
+                    buttonText: 'Verify ID',
+                    onTap: (){
+                      
+                    },
+                  ),
+                ),
+          
+                const SizedBox(height: 10,),
+                Text(
+                  'NEW USER?',
+                  style: TextStyle(
+                    color: Colors.grey.shade700,
+                    fontSize: 12,
+                  ),
+                ),
+          
+                const SizedBox(height: 5,),
+                SizedBox(
+                  child: WhiteButton(
+                    buttonText: 'Register',
+                    onTap: (){
+                      
+                    },
+                  ),
+                ),
+                const SizedBox(height: 10,),
                 
               ] //Children
             ),
