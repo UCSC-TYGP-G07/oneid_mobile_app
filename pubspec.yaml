@@ -30,8 +30,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  # step_progress_indicator: ^1.0.2
   step_tracker: ^0.0.5
+  dots_indicator: ^3.0.0
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -65,6 +65,7 @@ flutter:
   assets:
     - lib/assets/loginImage.jpg
     - lib/assets/proPic.jpeg
+    - lib/assets/onboardingScreenOne.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
