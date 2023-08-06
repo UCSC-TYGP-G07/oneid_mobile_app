@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:oneid_mobile_app/components/onboarding_screen.dart';
-import 'onboarding_screen_two.dart';
+import 'onboarding_screen_three.dart';
 
-class OnboardingScreenOne extends StatelessWidget{
-  const OnboardingScreenOne({super.key});
+class OnboardingScreenTwo extends StatelessWidget{
+  const OnboardingScreenTwo({super.key});
 
   @override
   Widget build(BuildContext context){
@@ -12,16 +12,16 @@ class OnboardingScreenOne extends StatelessWidget{
       backgroundColor: Colors.white,
       body: SafeArea(
         child: OnboardingScreen(
-          screenImage: 'lib/assets/onboardingScreenOne.png',
-          currentPosition: 0,
-          topicText: 'Apply for PIDs Online',
-          contentText: 'You can apply for personal identification documents such as NIC, Passport and Driving License',
+          screenImage: 'lib/assets/onboardingScreenTwo.png',
+          currentPosition: 1,
+          topicText: 'Get Studio Quality ID Photos',
+          contentText: 'You can capture studio quality ID photos that follows ICAO standards which is ...',
           onTap: (){
             Navigator.push(
               context,
               PageTransition(
                 type: PageTransitionType.rightToLeft,
-                child: const OnboardingScreenTwo(),
+                child: const OnboardingScreenThree(),
                 isIos: true,
               ),
             );
