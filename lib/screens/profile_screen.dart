@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:oneid_mobile_app/components/bottom_nav_bar.dart';
 import 'package:oneid_mobile_app/components/profile_button.dart';
-import 'edit_profile.dart';
+
+import 'edit_profile_screen.dart';
 
 class Profile extends StatefulWidget {
   Profile({Key? key}) : super(key: key);
@@ -10,16 +11,14 @@ class Profile extends StatefulWidget {
   State<Profile> createState() => _Profile();
 }
 
-class _Profile extends State<Profile>{
-  
+class _Profile extends State<Profile> {
   final searchController = TextEditingController();
 
   @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey.shade300,
-      bottomNavigationBar: BottomNavBar(selectedIndex:3),
-
+      bottomNavigationBar: BottomNavBar(selectedIndex: 3),
       body: SafeArea(
         child: Center(
           child: Column(

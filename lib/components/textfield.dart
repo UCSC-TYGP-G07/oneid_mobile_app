@@ -1,38 +1,39 @@
 import 'package:flutter/material.dart';
+import 'package:oneid_mobile_app/theme/colors.dart';
 
 class MyTextField extends StatelessWidget{
   final controller;
-  final String hintText;
+  final String labelText;
   final bool obscureText;
-  
+
   const MyTextField({
     super.key,
     required this.controller,
-    required this.hintText,
+    required this.labelText,
     required this.obscureText,
   });
 
   @override
-  Widget build(BuildContext context){
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 25.0),
-      child: TextField(
-        controller: controller,
-        obscureText: obscureText,
-        decoration: InputDecoration(
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(15),
-            borderSide: BorderSide(color: Colors.white)
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(15),
-            borderSide: BorderSide(color: Colors.grey)
-          ),
-          fillColor: Colors.grey.shade200,
-          filled: true,
-          hintText: hintText,
-          hintStyle: TextStyle(color: Colors.grey[500]),
-        ),
+  Widget build(BuildContext context) {
+    return TextField(
+      controller: controller,
+      obscureText: obscureText,
+      decoration: InputDecoration(
+        floatingLabelBehavior: FloatingLabelBehavior.auto,
+        floatingLabelStyle: const TextStyle(
+            color: OneIDColor.secondaryColor,
+            fontWeight: FontWeight.bold,
+            fontSize: 16),
+        enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8),
+            borderSide: const BorderSide(color: Colors.white)),
+        focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8),
+            borderSide: const BorderSide(color: OneIDColor.grey)),
+        filled: true,
+        label:
+            Text(labelText, style: const TextStyle(color: OneIDColor.darkGrey)),
+        hintStyle: const TextStyle(color: OneIDColor.grey),
       ),
     );
   }

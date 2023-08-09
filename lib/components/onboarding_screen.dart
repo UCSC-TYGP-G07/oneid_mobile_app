@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
 import 'package:dots_indicator/dots_indicator.dart';
+import 'package:flutter/material.dart';
 
-class OnboardingScreen extends StatelessWidget{
+class OnBoardingScreen extends StatelessWidget {
   final String screenImage;
   final int currentPosition;
   final String topicText;
@@ -9,7 +9,7 @@ class OnboardingScreen extends StatelessWidget{
   final Function()? onTap;
   final String buttonText;
 
-  const OnboardingScreen({
+  const OnBoardingScreen({
     super.key,
     required this.screenImage,
     required this.currentPosition,

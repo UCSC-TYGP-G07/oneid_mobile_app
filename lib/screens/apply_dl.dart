@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:oneid_mobile_app/components/bottom_nav_bar.dart';
-import 'package:oneid_mobile_app/components/progress_bar.dart';
 import 'package:oneid_mobile_app/components/form_textfield.dart';
+import 'package:oneid_mobile_app/components/progress_bar.dart';
 
 class ApplyDL extends StatefulWidget {
   ApplyDL({Key? key}) : super(key: key);

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:oneid_mobile_app/components/bottom_nav_bar.dart';
-import 'package:oneid_mobile_app/components/form_textfield.dart';
-import 'package:oneid_mobile_app/components/button_blue.dart';
 import 'package:oneid_mobile_app/components/button_white.dart';
+import 'package:oneid_mobile_app/components/form_textfield.dart';
 
+import '../components/primary_button.dart';
 
 class EditProfile extends StatefulWidget {
   EditProfile({Key? key}) : super(key: key);
@@ -12,14 +12,12 @@ class EditProfile extends StatefulWidget {
   State<EditProfile> createState() => _EditProfile();
 }
 
-class _EditProfile extends State<EditProfile>{
-
+class _EditProfile extends State<EditProfile> {
   @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey.shade300,
-      bottomNavigationBar: BottomNavBar(selectedIndex:3),
-
+      bottomNavigationBar: BottomNavBar(selectedIndex: 3),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Center(
@@ -113,14 +111,13 @@ class _EditProfile extends State<EditProfile>{
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    BlueButton(
-                      onTap: (){},
+                    PrimaryButton(
+                      onTap: () {},
                       buttonText: 'Update',
                     ),
-
                     SizedBox(width: 10),
                     WhiteButton(
-                      onTap: (){},
+                      onTap: () {},
                       buttonText: 'Cancel',
                     ),
                   ],

@@ -1,25 +1,24 @@
-import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:oneid_mobile_app/pages/profile.dart';
-import 'package:oneid_mobile_app/pages/dashboard.dart';
-import 'package:oneid_mobile_app/pages/one_id_wallet.dart';
-import 'package:oneid_mobile_app/pages/get_id.dart';
+import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:oneid_mobile_app/screens/get_id.dart';
+import 'package:oneid_mobile_app/screens/main/dashboard_screen.dart';
+import 'package:oneid_mobile_app/screens/main/id_wallet_screen.dart';
+import 'package:oneid_mobile_app/screens/profile_screen.dart';
 
 class BottomNavBar extends StatelessWidget {
-  const BottomNavBar({
-    //required this.context,
-    required this.selectedIndex,
-    super.key
-  });
+  const BottomNavBar(
+      {
+      //required this.context,
+      required this.selectedIndex,
+      super.key});
 
   //final BuildContext context;
   final int selectedIndex;
-  
 
   @override
   Widget build(BuildContext context) {
     return Container(
-        decoration: BoxDecoration(
+      decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(15),
           boxShadow: [
