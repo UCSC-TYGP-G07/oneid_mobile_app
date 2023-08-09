@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:oneid_mobile_app/components/bottom_nav_bar.dart';
 import 'package:oneid_mobile_app/components/button_white.dart';
 import 'package:oneid_mobile_app/components/form_textfield.dart';
 
@@ -17,7 +16,6 @@ class _EditProfile extends State<EditProfile> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey.shade300,
-      bottomNavigationBar: BottomNavBar(selectedIndex: 3),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Center(

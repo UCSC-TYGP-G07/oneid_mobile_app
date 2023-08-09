@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:oneid_mobile_app/theme/colors.dart';
 
-class MyTextField extends StatelessWidget{
+class MyTextField extends StatelessWidget {
   final controller;
   final String labelText;
   final bool obscureText;

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:oneid_mobile_app/components/bottom_nav_bar.dart';
 import 'package:oneid_mobile_app/components/form_textfield.dart';
 import 'package:oneid_mobile_app/components/progress_bar.dart';
 
@@ -20,8 +19,6 @@ class _ApplyDL extends State<ApplyDL>{
   Widget build(BuildContext context){
     return Scaffold(
       backgroundColor: Colors.grey.shade300,
-      bottomNavigationBar: const BottomNavBar(selectedIndex:2),
-
       body: SafeArea(
         child: SingleChildScrollView(
           child: Center(

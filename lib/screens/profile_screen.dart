@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:oneid_mobile_app/components/bottom_nav_bar.dart';
 import 'package:oneid_mobile_app/components/profile_button.dart';
 
 import 'edit_profile_screen.dart';
@@ -18,7 +17,6 @@ class _Profile extends State<Profile> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey.shade300,
-      bottomNavigationBar: BottomNavBar(selectedIndex: 3),
       body: SafeArea(
         child: Center(
           child: Column(
