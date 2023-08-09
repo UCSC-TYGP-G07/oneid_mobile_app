@@ -1,94 +1,109 @@
 import 'package:flutter/material.dart';
-import 'package:oneid_mobile_app/components/bottom_nav_bar.dart';
 import 'package:oneid_mobile_app/components/id_card.dart';
-import 'package:oneid_mobile_app/components/textfield.dart';
+import 'package:oneid_mobile_app/components/searchField.dart';
+import 'package:oneid_mobile_app/theme/colors.dart';
 
-class Dashboard extends StatefulWidget {
-  Dashboard({Key? key}) : super(key: key);
+class DashboardScreen extends StatefulWidget {
+  const DashboardScreen({Key? key}) : super(key: key);
 
   @override
-  State<Dashboard> createState() => _Dashboard();
+  State<DashboardScreen> createState() => _Dashboard();
 }
 
-class _Dashboard extends State<Dashboard>{
-  
+class _Dashboard extends State<DashboardScreen> {
   final searchController = TextEditingController();
 
   @override
-  Widget build(BuildContext context){
-    return Scaffold(
-      backgroundColor: Colors.grey.shade300,
-      bottomNavigationBar: BottomNavBar(selectedIndex:0),
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        //Hide keyboard when user taps outside of textfield
+        FocusScope.of(context).requestFocus(FocusNode());
+      },
+      child: Scaffold(
+        backgroundColor: Colors.grey.shade200,
+        body: SafeArea(
+          child: Center(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24),
+              child: Column(
+                children: [
+                  //Welcome text
+                  const SizedBox(height: 16),
+                  const Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Good Morning Masha!',
+                        style: TextStyle(
+                          color: OneIDColor.primaryColor,
+                          fontSize: 20,
+                        ),
+                      ),
+                      CircleAvatar(
+                        radius: 20,
+                        backgroundImage:
+                            AssetImage('assets/images/proPic.jpeg'),
+                      ),
+                    ],
+                  ),
+                  //Search Bar
+                  SizedBox(height: 20),
+                  MySearchField(
+                    controller: searchController,
+                    labelText: 'Search',
+                    obscureText: false,
+                  ),
 
-      body: SafeArea(
-        child: Center(
-          child: Column(
-            children: [
-
-              //Welcome text
-              SizedBox(height: 25),
-              Padding(
-                padding: EdgeInsets.only(left: 20),
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    'Good Morning Sandul!',
-                    style: TextStyle(
-                      color: Colors.blue.shade900,
-                      fontSize: 20,
+                  //Ongoing approvals
+                  SizedBox(
+                    height: 30,
+                  ),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      'Ongoing Approvals',
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                      ),
                     ),
                   ),
-                )),
 
-            //Search Bar
-            SizedBox(height: 25),
-            MyTextField(
-              controller: searchController,
-              labelText: 'Search',
-              obscureText: false,
-            ),
-
-            //Ongoing approvals
-            SizedBox(
-              height: 30,
-            ),
-            Padding(
-                padding: EdgeInsets.only(left: 20),
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    'Ongoing Approvals',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18,
-                    ),
+                  //Ongoing approval cards
+                  SizedBox(
+                    height: 25,
                   ),
-                )
+                  Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: 200,
+                    child: ListView.builder(
+                      itemCount: 3,
+                      scrollDirection: Axis.horizontal,
+                      itemBuilder: (context, index) {
+                        return Padding(
+                          padding: EdgeInsets.only(
+                            right: index < 2
+                                ? 20.0
+                                : 0.0, // Apply padding to all cards except the last one
+                          ),
+                          child: IDCard(
+                            idType: 'Driving License',
+                            refNum: '#13j894nk',
+                            applicantName: 'Masha Nilushi Pupulewatte',
+                            nic: '996280373V',
+                            approvalStatus: 'In progress',
+                          ),
+                        );
+                      },
+                    ),
+                  )
+                ],
               ),
-
-              //Ongoing approval cards
-              SizedBox(height: 25,),
-              Container(
-                height: 200,
-                child: ListView.builder(
-                  itemCount: 3,
-                  scrollDirection: Axis.horizontal,
-                  itemBuilder: (context, index){
-                    return IDCard(
-                      idType: 'Driving License',
-                      refNum: '#13j894nk',
-                      applicantName: 'Masha Nilushi Pupulewatte',
-                      nic: '996280373V',
-                      approvalStatus: 'In progress',
-                    );
-                  },
-                ),
-              )
-
-            ],
+            ),
           ),
-        )
+        ),
       ),
     );
   }

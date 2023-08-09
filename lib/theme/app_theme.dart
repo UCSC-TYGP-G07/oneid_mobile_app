@@ -13,10 +13,11 @@ class AppTheme {
     ),
     appBarTheme: const AppBarTheme(
       systemOverlayStyle: SystemUiOverlayStyle(
-        statusBarColor: Colors.transparent,
+        statusBarColor: Colors.black,
         statusBarIconBrightness: Brightness.dark,
         statusBarBrightness: Brightness.light,
       ),
+      backgroundColor: Colors.white,
     ),
     primaryColor: OneIDColor.grey,
     primaryColorDark: OneIDColor.primaryColor,

@@ -1,25 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:oneid_mobile_app/components/bottom_nav_bar.dart';
 import 'package:oneid_mobile_app/components/progress_bar.dart';
 
-import '../components/primary_button.dart';
-import 'apply_dl.dart';
+import '../../components/primary_button.dart';
+import '../apply_dl.dart';
 
-class GetIDs extends StatefulWidget {
-  GetIDs({Key? key}) : super(key: key);
+class ApplyForIDsScreen extends StatefulWidget {
+  const ApplyForIDsScreen({Key? key}) : super(key: key);
 
   @override
-  State<GetIDs> createState() => _GetIDs();
+  State<ApplyForIDsScreen> createState() => _GetIDs();
 }
 
-class _GetIDs extends State<GetIDs> {
+class _GetIDs extends State<ApplyForIDsScreen> {
   final searchController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey.shade300,
-      bottomNavigationBar: const BottomNavBar(selectedIndex: 2),
       body: SafeArea(
           child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20),

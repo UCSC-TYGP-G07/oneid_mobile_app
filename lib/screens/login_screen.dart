@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:oneid_mobile_app/components/textfield.dart';
+import 'package:oneid_mobile_app/components/textField.dart';
 import 'package:oneid_mobile_app/theme/colors.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<LoginScreen> createState() => _LoginScreenState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _LoginScreenState extends State<LoginScreen> {
   //Text editing controllers
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
