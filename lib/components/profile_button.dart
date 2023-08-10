@@ -16,13 +16,12 @@ class profileButton extends StatelessWidget{
     return GestureDetector(
       onTap: onTap,
       child: Container(
+        height: 64,
         decoration: BoxDecoration(
-          //color: Colors.black,
+          borderRadius: BorderRadius.circular(16),
           color: Colors.white,
-          borderRadius: BorderRadius.circular(15)
         ),
-        padding: const EdgeInsets.all(20),
-        margin: const EdgeInsets.symmetric(horizontal: 25),
+        padding: const EdgeInsets.symmetric(horizontal: 16),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -31,8 +30,9 @@ class profileButton extends StatelessWidget{
                 Icon(
                   iconData,
                 ),
-
-                const SizedBox(width: 20,),
+                const SizedBox(
+                  width: 20,
+                ),
                 Text(
                   buttonText,
                   style: const TextStyle(
@@ -42,7 +42,7 @@ class profileButton extends StatelessWidget{
               ],
             ),
 
-            Icon(
+            const Icon(
               Icons.chevron_right,
             )
           ],

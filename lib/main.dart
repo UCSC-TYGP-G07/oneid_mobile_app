@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:oneid_mobile_app/screens/edit_profile_screen.dart';
 import 'package:oneid_mobile_app/screens/loading_screen.dart';
 import 'package:oneid_mobile_app/screens/login_screen.dart';
 import 'package:oneid_mobile_app/screens/main/main_screen.dart';
@@ -22,12 +23,13 @@ class MyApp extends StatelessWidget {
       theme: AppTheme.lightTheme,
       initialRoute: '/loading',
       routes: <String, WidgetBuilder>{
-        '/': (context) => MainScreen(),
+        '/': (context) => const MainScreen(),
         '/loading': (context) => const LoadingScreen(),
+        '/on-boarding': (BuildContext context) => const OnBoardingScreen(),
         '/welcome': (context) => const WelcomeScreen(),
         '/login': (context) => const LoginScreen(),
-        '/profile': (BuildContext context) => Profile(),
-        '/on-boarding': (BuildContext context) => const OnBoardingScreen(),
+        '/profile': (BuildContext context) => const ProfileScreen(),
+        '/edit-profile': (BuildContext context) => const EditProfileScreen(),
       },
     );
   }

@@ -30,20 +30,25 @@ class _Dashboard extends State<DashboardScreen> {
                 children: [
                   //Welcome text
                   const SizedBox(height: 16),
-                  const Row(
+                  Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
+                      const Text(
                         'Good Morning Masha!',
                         style: TextStyle(
                           color: OneIDColor.primaryColor,
                           fontSize: 20,
                         ),
                       ),
-                      CircleAvatar(
-                        radius: 20,
-                        backgroundImage:
-                            AssetImage('assets/images/proPic.jpeg'),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.pushNamed(context, '/profile');
+                        },
+                        child: const CircleAvatar(
+                          radius: 20,
+                          backgroundImage:
+                              AssetImage('assets/images/proPic.jpeg'),
+                        ),
                       ),
                     ],
                   ),
