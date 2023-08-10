@@ -47,7 +47,7 @@ class _Dashboard extends State<DashboardScreen> {
                         child: const CircleAvatar(
                           radius: 20,
                           backgroundImage:
-                              AssetImage('assets/images/proPic.jpeg'),
+                              AssetImage('assets/images/pro-pic.jpeg'),
                         ),
                       ),
                     ],

@@ -53,7 +53,7 @@ class _EditProfile extends State<EditProfileScreen> {
                           children: [
                             const CircleAvatar(
                               backgroundImage:
-                                  AssetImage('lib/assets/proPic.jpeg'),
+                                  AssetImage('assets/images/pro-pic.jpeg'),
                             ),
                             Positioned(
                               right: 5,
