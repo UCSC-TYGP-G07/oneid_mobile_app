@@ -25,7 +25,7 @@ class _Dashboard extends State<DashboardScreen> {
         body: SafeArea(
           child: Center(
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24),
+              padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Column(
                 children: [
                   //Welcome text
@@ -90,7 +90,7 @@ class _Dashboard extends State<DashboardScreen> {
                         return Padding(
                           padding: EdgeInsets.only(
                             right: index < 2
-                                ? 20.0
+                                ? 16.0
                                 : 0.0, // Apply padding to all cards except the last one
                           ),
                           child: IDCard(

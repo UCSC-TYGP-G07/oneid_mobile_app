@@ -22,7 +22,7 @@ class _Profile extends State<ProfileScreen> {
             Navigator.pop(context);
           },
           icon: const Icon(
-            Icons.arrow_back,
+            Icons.arrow_back_ios,
             color: Colors.black,
           ),
         ),

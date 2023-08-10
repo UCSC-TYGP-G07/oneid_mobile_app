@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:oneid_mobile_app/theme/colors.dart';
 
@@ -133,7 +132,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
       nextFlex: 0,
       showBackButton: false,
       //rtl: true, // Display as right-to-left
-      back: const Icon(Icons.arrow_back),
+      back: const Icon(Icons.arrow_back_ios),
       skip: const Text('Skip', style: TextStyle(fontWeight: FontWeight.w600)),
       next: const Icon(Icons.arrow_forward),
       done: const Text('Done', style: TextStyle(fontWeight: FontWeight.w600)),

@@ -50,10 +50,10 @@ class _LoginScreenState extends State<LoginScreen> {
           body: SafeArea(
               child: Center(
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
               child: Column(children: [
                 //Welcome Text
-                const SizedBox(height: 16),
+                const SizedBox(height: 24),
                 const Text(
                   'Sign in to OneID',
                   style: TextStyle(

@@ -21,7 +21,7 @@ class IDCard extends StatelessWidget{
     return ClipRRect(
       borderRadius: BorderRadius.circular(12),
       child: Container(
-        width: 330,
+        width: 320,
         padding: const EdgeInsets.all(12),
         color: Colors.white,
         child: const Column(
@@ -34,7 +34,7 @@ class IDCard extends StatelessWidget{
               ],
             ),
             SizedBox(
-              height: 120,
+              height: 128,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -42,6 +42,9 @@ class IDCard extends StatelessWidget{
                 Text('Name: Masha Nilushi'),
                 Text('Approval In Progress'),
               ],
+            ),
+            SizedBox(
+              height: 2,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,

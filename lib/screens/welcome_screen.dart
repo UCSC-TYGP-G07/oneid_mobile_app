@@ -32,8 +32,8 @@ class WelcomeScreen extends StatelessWidget {
               child: Align(
                   alignment: FractionalOffset.bottomCenter,
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 24, vertical: 20),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 24, vertical: 0),
                     child: Column(
                       children: [
                         const Text(
@@ -98,6 +98,9 @@ class WelcomeScreen extends StatelessWidget {
                             buttonText: 'Register',
                             onTap: () {},
                           ),
+                        ),
+                        const SizedBox(
+                          height: 16,
                         ),
                       ],
                     ),
