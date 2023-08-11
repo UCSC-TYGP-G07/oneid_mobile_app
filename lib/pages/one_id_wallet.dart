@@ -3,8 +3,6 @@ import 'package:oneid_mobile_app/components/bottom_nav_bar.dart';
 import 'package:oneid_mobile_app/components/id_card.dart';
 import 'package:stacked_card_carousel/stacked_card_carousel.dart';
 
-
-
 class Wallet extends StatefulWidget {
   Wallet({Key? key}) : super(key: key);
 
@@ -12,33 +10,35 @@ class Wallet extends StatefulWidget {
   State<Wallet> createState() => _Wallet();
 }
 
-class _Wallet extends State<Wallet>{
-
+class _Wallet extends State<Wallet> {
   final List<Widget> fancyCards = <Widget>[
     FancyCard(
-      image: Image.asset("lib/assets/proPic.jpeg"),
-      title: "Say hello to planets!",
+      image: Image.asset(
+        "lib/assets/proPic.jpeg",
+        height: 100,
+      ),
+      title: "Driving License",
     ),
     FancyCard(
       image: Image.asset("lib/assets/proPic.jpeg"),
-      title: "Don't be sad!",
+      title: "NIC Card",
     ),
     FancyCard(
       image: Image.asset("lib/assets/proPic.jpeg"),
-      title: "Go for a walk!",
+      title: "Passport",
     ),
   ];
-  
+
   final searchController = TextEditingController();
 
   @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey.shade300,
-      bottomNavigationBar: BottomNavBar(selectedIndex:1),
-
+      bottomNavigationBar: BottomNavBar(selectedIndex: 1),
       body: StackedCardCarousel(
         items: fancyCards,
+        spaceBetweenItems: 200,
       ),
     );
   }
@@ -57,27 +57,46 @@ class FancyCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      elevation: 4.0,
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: <Widget>[
-            Container(
-              width: 250,
-              height: 250,
-              child: image,
-            ),
-            Text(
-              title,
-              style: Theme.of(context).textTheme.headline5,
-            ),
-            OutlinedButton(
-              child: const Text("Learn more"),
-              onPressed: () => print("Button was tapped"),
-            ),
-          ],
-        ),
-      ),
-    );
+        elevation: 4,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        child: Padding(
+          padding: EdgeInsets.all(10),
+          child: Column(
+            children: [
+              Text(title),
+              Row(
+                children: [
+                  // Image on the left
+                  Container(
+                    width: 100,
+                    height: 170,
+                    child: image,
+                    padding: EdgeInsets.all(10),
+                  ),
+                  // ID card details on the right
+                  Expanded(
+                    child: Padding(
+                      padding: EdgeInsets.all(16),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Name: ',
+                            style: TextStyle(fontSize: 14),
+                          ),
+                          SizedBox(height: 8),
+                          Text(
+                            'ID Number: ',
+                            style: TextStyle(fontSize: 14),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ));
   }
 }
