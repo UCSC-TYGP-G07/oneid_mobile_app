@@ -59,7 +59,7 @@ class _GetIDs extends State<ApplyForIDsScreen> {
                 child: PrimaryButton(
                   buttonText: 'NIC',
                   onTap: () {
-                    Navigator.pushNamed(context, '/apply-nic-1');
+                    Navigator.pushNamed(context, '/apply-nic');
                   },
                 ),
               ),

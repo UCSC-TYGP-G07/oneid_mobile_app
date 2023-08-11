@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:oneid_mobile_app/components/primary_button.dart';
 import 'package:oneid_mobile_app/components/progress_bar.dart';
-import 'package:oneid_mobile_app/components/secondary_button.dart';
 import 'package:oneid_mobile_app/theme/colors.dart';
 
 import '../components/ReadOnlyTextField.dart';
@@ -153,7 +152,7 @@ class _ApplyNIC1 extends State<ApplyNICScreen1> {
                           ),
                           ReadOnlyTextField(
                             labelText: 'Profession / Occupation / Job',
-                            value: 'House-wife',
+                            value: 'Astronaut',
                           ),
                           SizedBox(
                             height: 24,
@@ -193,23 +192,13 @@ class _ApplyNIC1 extends State<ApplyNICScreen1> {
       )),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: BottomAppBar(
-        height: 90,
+        height: 85,
         elevation: 1,
         child: Padding(
           padding: const EdgeInsets.all(12.0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              const Expanded(
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 12.0),
-                  child: SecondaryButton(
-                    buttonText: 'Previous',
-                    onTap: null,
-                    color: OneIDColor.darkGrey,
-                  ),
-                ),
-              ),
               Expanded(
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 12.0),
@@ -219,9 +208,10 @@ class _ApplyNIC1 extends State<ApplyNICScreen1> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => ApplyNICScreen2(
-                                    birthCertFilePath: "",
-                                  )));
+                              builder: (context) =>
+                              const ApplyNICScreen2(
+                                birthCertFilePath: null,
+                              )));
                     },
                   ),
                 ),

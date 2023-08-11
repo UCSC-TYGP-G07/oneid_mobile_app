@@ -13,14 +13,14 @@ import '../components/secondary_button.dart';
 import '../theme/colors.dart';
 import 'apply_nic_2.dart';
 
-class ScanBirthCert extends StatefulWidget {
-  const ScanBirthCert({Key? key}) : super(key: key);
+class ScanBirthCertScreen extends StatefulWidget {
+  const ScanBirthCertScreen({Key? key}) : super(key: key);
 
   @override
-  State<ScanBirthCert> createState() => _ApplyNIC2();
+  State<ScanBirthCertScreen> createState() => _ScanBirthCert();
 }
 
-class _ApplyNIC2 extends State<ScanBirthCert> {
+class _ScanBirthCert extends State<ScanBirthCertScreen> {
   List<String> _pictures = [];
   bool isComplete = false;
   late ProgressDialog progressDialog = ProgressDialog(context: context);
@@ -245,7 +245,7 @@ class _ApplyNIC2 extends State<ScanBirthCert> {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: BottomAppBar(
-        height: 90,
+        height: 85,
         elevation: 1,
         child: Padding(
           padding: const EdgeInsets.all(12.0),
