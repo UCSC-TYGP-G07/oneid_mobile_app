@@ -56,47 +56,58 @@ class FancyCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-        elevation: 4,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-        child: Padding(
-          padding: EdgeInsets.all(10),
-          child: Column(
-            children: [
-              Text(title),
-              Row(
-                children: [
-                  // Image on the left
-                  Container(
-                    width: 100,
-                    height: 170,
-                    child: image,
-                    padding: EdgeInsets.all(10),
-                  ),
-                  // ID card details on the right
-                  Expanded(
-                    child: Padding(
-                      padding: EdgeInsets.all(16),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Name: ',
-                            style: TextStyle(fontSize: 14),
-                          ),
-                          SizedBox(height: 8),
-                          Text(
-                            'ID Number: ',
-                            style: TextStyle(fontSize: 14),
-                          ),
-                        ],
+    return GestureDetector(
+      onTap: () {
+        showDialog(
+            context: context,
+            builder: ((context) => AlertDialog(
+                  title: Text("QR Code"),
+                  content: Image.asset("lib/assets/qr.jpg"),
+                )));
+      },
+      child: Card(
+          elevation: 4,
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          child: Padding(
+            padding: EdgeInsets.all(10),
+            child: Column(
+              children: [
+                Text(title),
+                Row(
+                  children: [
+                    // Image on the left
+                    Container(
+                      width: 100,
+                      height: 170,
+                      child: image,
+                      padding: EdgeInsets.all(10),
+                    ),
+                    // ID card details on the right
+                    Expanded(
+                      child: Padding(
+                        padding: EdgeInsets.all(16),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Name: ',
+                              style: TextStyle(fontSize: 14),
+                            ),
+                            SizedBox(height: 8),
+                            Text(
+                              'ID Number: ',
+                              style: TextStyle(fontSize: 14),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ));
+                  ],
+                ),
+              ],
+            ),
+          )),
+    );
   }
 }

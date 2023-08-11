@@ -67,6 +67,7 @@ flutter:
   assets:
     - lib/assets/loginImage.jpg
     - lib/assets/proPic.jpeg
+    - lib/assets/qr.jpg
     - lib/assets/onboardingScreenOne.png
     - lib/assets/onboardingScreenTwo.png
     - lib/assets/onboardingScreenThree.png
