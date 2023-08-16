@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:oneid_mobile_app/components/textField.dart';
 import 'package:oneid_mobile_app/theme/colors.dart';
 
@@ -13,10 +14,26 @@ class _LoginScreenState extends State<LoginScreen> {
   //Text editing controllers
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  bool isLoading = false;
 
   //Sign user in method
   void signUserIn() {
-    Navigator.pushReplacementNamed(context, '/');
+    if (emailController.text == '' || passwordController.text == '') {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        content: Text('Please enter your email and password'),
+      ));
+      return;
+    }
+
+    setState(() {
+      isLoading = true;
+    });
+    Future.delayed(const Duration(seconds: 2), () {
+      setState(() {
+        isLoading = false;
+      });
+      Navigator.popUntil(context, (route) => route.isFirst);
+    });
   }
 
   // Create a FocusNode to manage the focus of the text field.
@@ -43,7 +60,7 @@ class _LoginScreenState extends State<LoginScreen> {
               icon: const Icon(Icons.arrow_back_ios),
               color: Colors.blue.shade900,
               onPressed: () {
-                Navigator.pop(context);
+                Navigator.popAndPushNamed(context, '/welcome');
               },
             ),
           ),
@@ -87,22 +104,25 @@ class _LoginScreenState extends State<LoginScreen> {
                 SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
-                        onPressed: () {
-                          signUserIn();
-                        },
+                        onPressed: isLoading ? null : signUserIn,
                         style: ElevatedButton.styleFrom(
                           elevation: 1,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(8),
                           ),
-                          padding: EdgeInsets.symmetric(vertical: 16),
+                          padding: const EdgeInsets.symmetric(vertical: 16),
                         ),
-                        child: const Text('Sign in',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16,
-                            )))),
+                        child: isLoading
+                            ? const SpinKitFadingCircle(
+                                size: 20,
+                                color: Colors.white,
+                              )
+                            : const Text('Sign in',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16,
+                                )))),
 
                 const SizedBox(height: 20),
 

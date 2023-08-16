@@ -244,7 +244,15 @@ class _ApplyNIC2 extends State<ApplyNICScreen2> {
                                               widget.birthCertFilePath,
                                         )));
                           }
-                        : null,
+                        : () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => ApplyNICScreen3(
+                                          birthCertFilePath:
+                                              widget.birthCertFilePath,
+                                        )));
+                          },
                   ),
                 ),
               ),

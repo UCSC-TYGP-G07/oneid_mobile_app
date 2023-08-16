@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:oneid_mobile_app/components/profile_button.dart';
+import 'package:oneid_mobile_app/screens/login_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key? key}) : super(key: key);
@@ -134,8 +135,12 @@ class _Profile extends State<ProfileScreen> {
                   profileButton(
                     onTap: () {
                       //Redirect to change password
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const LoginScreen()));
                     },
-                    buttonText: 'Log Out',
+                    buttonText: 'Logout',
                     iconData: Icons.logout,
                   )
                 ],

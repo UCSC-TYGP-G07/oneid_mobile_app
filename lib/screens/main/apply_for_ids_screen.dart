@@ -45,9 +45,7 @@ class _GetIDs extends State<ApplyForIDsScreen> {
                 width: 200,
                 child: PrimaryButton(
                   buttonText: 'Driving License',
-                  onTap: () {
-                    Navigator.pushNamed(context, '/apply-dl');
-                  },
+                  onTap: () {},
                 ),
               ),
 
