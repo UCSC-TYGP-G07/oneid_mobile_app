@@ -17,15 +17,19 @@ class CaptureResultsScreen extends StatefulWidget {
       : super(key: key);
 
   @override
-  State<CaptureResultsScreen> createState() => _ApplyNIC2();
+  State<CaptureResultsScreen> createState() => _CaptureResults();
 }
 
-class _ApplyNIC2 extends State<CaptureResultsScreen> {
+class _CaptureResults extends State<CaptureResultsScreen> {
   bool isComplete = false;
   String photoFilePath = "";
   bool isUploading = false;
   bool isUploaded = false;
+  bool isFailed = false;
+  bool isBlurred = false;
+  bool isVariedBackground = false;
   String responseMessage = "";
+  bool isFinalizing = true;
 
   void _showSuccessDialog(BuildContext context) {
     showDialog(
@@ -35,9 +39,17 @@ class _ApplyNIC2 extends State<CaptureResultsScreen> {
           title: const Icon(
             Icons.check_circle_outline,
             color: Colors.green,
-            size: 60,
+            size: 75,
           ),
-          content: Text('NIC request submitted successfully'),
+          content: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Text(
+              'NIC request submitted successfully',
+              style: TextStyle(
+                  fontSize: 18, fontWeight: FontWeight.bold, height: 1.4),
+              textAlign: TextAlign.center,
+            ),
+          ),
           actions: [
             TextButton(
               onPressed: () {
@@ -58,14 +70,20 @@ class _ApplyNIC2 extends State<CaptureResultsScreen> {
     setState(() {
       isUploading = true;
     });
-    File imageFile = File(widget.photoPath);
-
-    var imageUploadRequest =
-        http.MultipartFile.fromPath('image', imageFile.path);
 
     var request = http.MultipartRequest(
-        'POST', Uri.parse('http://localhost:3000/api/v1/ocr'));
-    request.files.add(await imageUploadRequest);
+        'POST', Uri.parse('http://18.142.53.118:8100/icao_validate'));
+
+    //File imageFile = File(widget.photoPath);
+    // var imageUploadRequest = http.MultipartFile.fromPath('image', imageFile.path);
+    // request.files.add(await imageUploadRequest);
+
+    var imageFile2 = File(
+        widget.photoPath); // Replace with the actual path to your image file
+    var imageUploadRequest2 = http.MultipartFile.fromBytes(
+        'file', await imageFile2.readAsBytes(),
+        filename: 'image.jpg');
+    request.files.add(imageUploadRequest2);
 
     Future.delayed(const Duration(seconds: 2), () {
       setState(() {
@@ -88,15 +106,45 @@ class _ApplyNIC2 extends State<CaptureResultsScreen> {
       var jsonResponse = json.decode(responseString);
 
       // Extract the "message" property
-      var message = jsonResponse['message'];
+      // var message = jsonResponse['is_icao_compliant'];
+      //
+      // setState(() {
+      //   responseMessage = "All checks passed";
+      // });
 
-      setState(() {
-        responseMessage = message;
-      });
+      print(jsonResponse);
 
-      if (jsonResponse['status'] == 'pass') {
+      if (jsonResponse['is_icao_compliant'] == true) {
         setState(() {
           isComplete = true;
+          isFailed = false;
+          responseMessage = "All checks passed";
+        });
+      } else {
+        setState(() {
+          isComplete = true;
+          isFailed = true;
+          responseMessage = "Validation failed, please try again";
+        });
+      }
+
+      if (jsonResponse['blur']['is_blur'] == true) {
+        setState(() {
+          isBlurred = true;
+        });
+      } else {
+        setState(() {
+          isBlurred = false;
+        });
+      }
+
+      if (jsonResponse['varied_bg']['is_varied_bg'] == true) {
+        setState(() {
+          isVariedBackground = true;
+        });
+      } else {
+        setState(() {
+          isVariedBackground = false;
         });
       }
     } else {
@@ -133,7 +181,7 @@ class _ApplyNIC2 extends State<CaptureResultsScreen> {
             child: Padding(
               padding: const EdgeInsets.all(32.0),
               child: Container(
-                height: 400,
+                height: isComplete && isFailed ? 350 : 400,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(8.0),
                   // Add a border radius
@@ -149,14 +197,14 @@ class _ApplyNIC2 extends State<CaptureResultsScreen> {
             ),
           ),
           const SizedBox(
-            height: 16,
+            height: 12,
           ),
           !isUploaded
               ? Column(
                   children: [
                     const SpinKitFadingCircle(
                       color: OneIDColor.primaryColor,
-                      size: 50.0,
+                      size: 60.0,
                     ),
                     const SizedBox(
                       height: 20,
@@ -171,24 +219,54 @@ class _ApplyNIC2 extends State<CaptureResultsScreen> {
                     )
                   ],
                 )
-              : const Column(
+              : Column(
                   children: [
                     Icon(
-                      Icons.check_circle,
-                      color: Colors.green,
-                      size: 50,
+                      isFailed ? Icons.cancel : Icons.check_circle,
+                      color: isFailed ? Colors.red : Colors.green,
+                      size: 60.0,
                     ),
                     SizedBox(
-                      height: 20,
+                      height: 18,
                     ),
                     Text(
-                      'All tests passed',
+                      responseMessage,
                       style: TextStyle(
-                        color: OneIDColor.primaryColor,
-                        fontSize: 18,
+                        color: isFailed ? Colors.red : Colors.green,
+                        fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),
-                    )
+                    ),
+                    isComplete && isFailed
+                        ? Column(
+                            children: [
+                              const SizedBox(
+                                height: 16,
+                              ),
+                              isVariedBackground
+                                  ? const Text(
+                                      'Use a plain coloured background',
+                                      style: TextStyle(
+                                        color: OneIDColor.darkGrey,
+                                        fontSize: 16,
+                                      ),
+                                    )
+                                  : Container(),
+                              const SizedBox(
+                                height: 4,
+                              ),
+                              isBlurred
+                                  ? const Text(
+                                      'Make sure the image is not blurred',
+                                      style: TextStyle(
+                                        color: OneIDColor.darkGrey,
+                                        fontSize: 16,
+                                      ),
+                                    )
+                                  : Container(),
+                            ],
+                          )
+                        : Container(),
                   ],
                 ),
         ],
@@ -226,7 +304,7 @@ class _ApplyNIC2 extends State<CaptureResultsScreen> {
                   padding: const EdgeInsets.symmetric(horizontal: 12.0),
                   child: PrimaryButton(
                       buttonText: 'Finish and Submit',
-                      onTap: isComplete
+                      onTap: isComplete && !isFailed
                           ? () {
                               _showSuccessDialog(context);
                             }
