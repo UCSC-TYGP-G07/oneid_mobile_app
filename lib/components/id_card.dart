@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:oneid_mobile_app/theme/colors.dart';
+import 'package:percent_indicator/circular_percent_indicator.dart';
 
-class IDCard extends StatelessWidget{
-
+class IDCard extends StatelessWidget {
   final String idType;
   final String refNum;
   final String applicantName;
@@ -17,42 +18,86 @@ class IDCard extends StatelessWidget{
   });
 
   @override
-  Widget build(BuildContext context){
-    return Padding(
-      padding: const EdgeInsets.only(left: 25.0),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(12),
-        child: Container(
-          width: 330,
-          padding: EdgeInsets.all(12),
-          color: Colors.grey[200],
-          child: const Column(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  Widget build(BuildContext context) {
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(12),
+      child: Container(
+        width: 320,
+        padding: const EdgeInsets.all(20),
+        color: Colors.white,
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  'Driving License',
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 4,
+            ),
+            Text('Ref No: #89hnfhfu',
+                style: TextStyle(
+                  color: OneIDColor.grey,
+                )),
+            SizedBox(
+              height: 4,
+            ),
+            Divider(
+              color: OneIDColor.grey,
+            ),
+            SizedBox(
+              height: 8,
+            ),
+            Center(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text('Driving License'),
-                  Text('Ref No: #89hnfhfu'),
+                  CircularPercentIndicator(
+                    radius: 32.0,
+                    lineWidth: 5.0,
+                    percent: 0.5,
+                    center: new Text("50%"),
+                    progressColor: Colors.green,
+                    animation: true,
+                  ),
+                  SizedBox(width: 24),
+                  Text('Approval In Progress',
+                      style:
+                          TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
                 ],
               ),
-
-              SizedBox(height: 120,),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text('Name: Masha Nilushi'),
-                  Text('Approval In Progress'),
-                ],
-              ),
-
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text('NIC: 996280373V'),
-                ],
-              ),
-            ],
-          ),
+            ),
+            SizedBox(
+              height: 15,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text('Name: '),
+                Text(
+                  'Masha Nilushi',
+                  style: TextStyle(color: OneIDColor.primaryColor),
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 2,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text('NIC: '),
+                Text(
+                  '996280373V',
+                  style: TextStyle(color: OneIDColor.primaryColor),
+                ),
+              ],
+            ),
+          ],
         ),
       ),
     );

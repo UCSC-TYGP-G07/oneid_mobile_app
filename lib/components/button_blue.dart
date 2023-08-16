@@ -20,13 +20,13 @@ class BlueButton extends StatelessWidget{
           decoration: BoxDecoration(
             //color: Colors.black,
             color: const Color(0xFF27187E),
-            borderRadius: BorderRadius.circular(15),
+            borderRadius: BorderRadius.circular(8),
             border: Border.all(
               color: const Color(0xFF27187E),
               width: 2.0,
             ),
           ),
-          padding: const EdgeInsets.all(20),
+          padding: const EdgeInsets.all(16),
           // margin: const EdgeInsets.symmetric(horizontal: 25),
           child: Center(
             child: Text(

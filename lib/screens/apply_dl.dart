@@ -1,29 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:oneid_mobile_app/components/bottom_nav_bar.dart';
-import 'package:oneid_mobile_app/components/progress_bar.dart';
 import 'package:oneid_mobile_app/components/form_textfield.dart';
+import 'package:oneid_mobile_app/components/progress_bar.dart';
 
-class ApplyDL extends StatefulWidget {
-  ApplyDL({Key? key}) : super(key: key);
+class ApplyDLScreen extends StatefulWidget {
+  const ApplyDLScreen({Key? key}) : super(key: key);
 
   @override
-  State<ApplyDL> createState() => _ApplyDL();
+  State<ApplyDLScreen> createState() => _ApplyDL();
 }
 
-class _ApplyDL extends State<ApplyDL>{
-  
+class _ApplyDL extends State<ApplyDLScreen> {
   final searchController = TextEditingController();
   String? _selectedGender;
   DateTime? _selectedDate;
 
   @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey.shade300,
-      bottomNavigationBar: const BottomNavBar(selectedIndex:2),
-
       body: SafeArea(
-        child: SingleChildScrollView(
+          child: SingleChildScrollView(
           child: Center(
             child: Column(
               children: [
