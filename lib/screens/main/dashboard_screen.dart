@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:oneid_mobile_app/components/id_card.dart';
 import 'package:oneid_mobile_app/components/searchField.dart';
+import 'package:oneid_mobile_app/screens/verify_id_screen.dart';
 import 'package:oneid_mobile_app/theme/colors.dart';
 
 class DashboardScreen extends StatefulWidget {
@@ -37,6 +38,7 @@ class _Dashboard extends State<DashboardScreen> {
                         'Good Morning Masha!',
                         style: TextStyle(
                           color: OneIDColor.primaryColor,
+                          fontWeight: FontWeight.bold,
                           fontSize: 20,
                         ),
                       ),
@@ -61,10 +63,10 @@ class _Dashboard extends State<DashboardScreen> {
                   ),
 
                   //Ongoing approvals
-                  SizedBox(
+                  const SizedBox(
                     height: 30,
                   ),
-                  Align(
+                  const Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
                       'Ongoing Approvals',
@@ -77,12 +79,12 @@ class _Dashboard extends State<DashboardScreen> {
                   ),
 
                   //Ongoing approval cards
-                  SizedBox(
+                  const SizedBox(
                     height: 25,
                   ),
-                  Container(
+                  SizedBox(
                     width: MediaQuery.of(context).size.width,
-                    height: 200,
+                    height: 215,
                     child: ListView.builder(
                       itemCount: 3,
                       scrollDirection: Axis.horizontal,
@@ -103,6 +105,96 @@ class _Dashboard extends State<DashboardScreen> {
                         );
                       },
                     ),
+                  ),
+                  const SizedBox(
+                    height: 24,
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 24),
+                    child: Divider(
+                      color: OneIDColor.grey,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 24,
+                  ),
+                  Row(
+                    children: [
+                      Container(
+                        width: MediaQuery.of(context).size.width / 2 - 30,
+                        height: 140,
+                        decoration: BoxDecoration(
+                          color: Colors.grey.shade50,
+                          borderRadius: BorderRadius.circular(16.0),
+                          border: Border.all(color: Colors.grey),
+                        ),
+                        child: Column(
+                          children: [
+                            const SizedBox(
+                              height: 16,
+                            ),
+                            const Icon(
+                              Icons.person,
+                              color: OneIDColor.primaryColor,
+                              size: 64,
+                            ),
+                            const SizedBox(
+                              height: 16,
+                            ),
+                            const Text(
+                              'Share my ID',
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        width: 20,
+                      ),
+                      InkWell(
+                        onTap: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => const VerifyIDScreen(),
+                            ),
+                          );
+                        },
+                        child: Container(
+                          width: MediaQuery.of(context).size.width / 2 - 30,
+                          height: 140,
+                          decoration: BoxDecoration(
+                            color: Colors.grey.shade50,
+                            borderRadius: BorderRadius.circular(16.0),
+                            border: Border.all(color: Colors.grey),
+                          ),
+                          child: Column(
+                            children: [
+                              const SizedBox(
+                                height: 16,
+                              ),
+                              const Icon(
+                                Icons.qr_code_scanner_rounded,
+                                color: OneIDColor.primaryColor,
+                                size: 64,
+                              ),
+                              const SizedBox(
+                                height: 16,
+                              ),
+                              const Text(
+                                'Verify ID',
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ],
+                          ),
+                        ),
+                      )
+                    ],
                   )
                 ],
               ),

@@ -26,7 +26,6 @@ class AppTheme {
     textTheme: GoogleFonts.interTextTheme(
       ThemeData.light().textTheme,
     ),
-
     textSelectionTheme: const TextSelectionThemeData(
       cursorColor: OneIDColor.primaryColor,
       selectionColor: OneIDColor.primaryColor,
