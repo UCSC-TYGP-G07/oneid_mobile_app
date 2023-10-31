@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 class OnBoardingScreen extends StatelessWidget {
   final String screenImage;
-  final int currentPosition;
+  final double currentPosition;
   final String topicText;
   final String contentText;
   final Function()? onTap;
