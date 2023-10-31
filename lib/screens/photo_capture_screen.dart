@@ -161,6 +161,7 @@ class _PhotoCaptureScreenState extends State<PhotoCaptureScreen> {
         // Face ===================================
         if (faceArea < 100000.0) {
           distanceMsg = 'Too far, move closer\n';
+          _guide = distanceMsg;
           if (_validations[0]['passed']) {
             HapticFeedback.lightImpact();
           }
@@ -170,6 +171,7 @@ class _PhotoCaptureScreenState extends State<PhotoCaptureScreen> {
 
         if (faceArea > 200000.0) {
           distanceMsg = 'Too close, move away\n';
+          _guide = distanceMsg;
           if (_validations[0]['passed']) {
             HapticFeedback.lightImpact();
           }
