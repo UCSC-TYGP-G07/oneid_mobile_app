@@ -41,8 +41,8 @@ class _CaptureResults extends State<CaptureResultsScreen> {
             color: Colors.green,
             size: 75,
           ),
-          content: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
+          content: const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16),
             child: Text(
               'NIC request submitted successfully',
               style: TextStyle(
@@ -72,7 +72,7 @@ class _CaptureResults extends State<CaptureResultsScreen> {
     });
 
     var request = http.MultipartRequest(
-        'POST', Uri.parse('http://18.142.53.118:8100/icao_validate'));
+        'POST', Uri.parse('http://54.151.252.33:8100/validate_icao'));
 
     //File imageFile = File(widget.photoPath);
     // var imageUploadRequest = http.MultipartFile.fromPath('image', imageFile.path);
@@ -114,7 +114,7 @@ class _CaptureResults extends State<CaptureResultsScreen> {
 
       print(jsonResponse);
 
-      if (jsonResponse['is_icao_compliant'] == true) {
+      if (jsonResponse['all_passed'] == true) {
         setState(() {
           isComplete = true;
           isFailed = false;
@@ -124,29 +124,29 @@ class _CaptureResults extends State<CaptureResultsScreen> {
         setState(() {
           isComplete = true;
           isFailed = true;
-          responseMessage = "Validation failed, please try again";
+          responseMessage = jsonResponse['tests'].toString();
         });
       }
-
-      if (jsonResponse['blur']['is_blur'] == true) {
-        setState(() {
-          isBlurred = true;
-        });
-      } else {
-        setState(() {
-          isBlurred = false;
-        });
-      }
-
-      if (jsonResponse['varied_bg']['is_varied_bg'] == true) {
-        setState(() {
-          isVariedBackground = true;
-        });
-      } else {
-        setState(() {
-          isVariedBackground = false;
-        });
-      }
+      //
+      // if (jsonResponse['tests']['geometry']['is_passed'] == true) {
+      //   setState(() {
+      //     isBlurred = true;
+      //   });
+      // } else {
+      //   setState(() {
+      //     isBlurred = false;
+      //   });
+      // }
+      //
+      // if (jsonResponse['tests']['varied_bg']['is_passed'] == true) {
+      //   setState(() {
+      //     isVariedBackground = true;
+      //   });
+      // } else {
+      //   setState(() {
+      //     isVariedBackground = false;
+      //   });
+      // }
     } else {
       setState(() {
         isUploading = false;
@@ -226,7 +226,7 @@ class _CaptureResults extends State<CaptureResultsScreen> {
                       color: isFailed ? Colors.red : Colors.green,
                       size: 60.0,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 18,
                     ),
                     Text(
@@ -282,7 +282,7 @@ class _CaptureResults extends State<CaptureResultsScreen> {
             children: [
               Expanded(
                 child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 12.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 12.0),
                   child: SecondaryButton(
                     buttonText: 'Re-capture',
                     onTap: () {

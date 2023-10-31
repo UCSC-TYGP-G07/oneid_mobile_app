@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:oneid_mobile_app/components/textField.dart';
 import 'package:oneid_mobile_app/theme/colors.dart';
+
+import '../models/login_req.dart';
+import '../services/snackbar_service.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -17,7 +21,7 @@ class _LoginScreenState extends State<LoginScreen> {
   bool isLoading = false;
 
   //Sign user in method
-  void signUserIn() {
+  void signUserIn() async {
     if (emailController.text == '' || passwordController.text == '') {
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
         content: Text('Please enter your email and password'),
@@ -28,12 +32,40 @@ class _LoginScreenState extends State<LoginScreen> {
     setState(() {
       isLoading = true;
     });
-    Future.delayed(const Duration(seconds: 2), () {
+
+    LoginRequest loginRequest = LoginRequest(
+        email: emailController.text, password: passwordController.text);
+
+    // var res = await ApiMiddleware(context).sendRequest(
+    //     requestType: RequestType.post,
+    //     endpoint: constants.loginEndpoint,
+    //     data: loginRequestToJson(loginRequest));
+
+    SnackBarService snackBarService = SnackBarService(context);
+
+    if (true) {
       setState(() {
         isLoading = false;
       });
-      Navigator.popUntil(context, (route) => route.isFirst);
-    });
+      if (true) {
+        // delay for 1 sec
+        await Future.delayed(const Duration(seconds: 1));
+
+        snackBarService.showSuccessMessage(content: 'Login successful');
+        Navigator.popUntil(context, (route) => route.isFirst);
+
+        SystemSound.play(SystemSoundType.click);
+      }
+      // } else if (res.statusCode == 401) {
+      //   snackBarService.showErrorMessage(
+      //       content: 'Login credentials invalid');
+      // } else if (res.statusCode == 403) {
+      //   snackBarService.showWarningMessage(
+      //       content: 'Login email is not valid');
+      // } else {
+      //   snackBarService.showErrorMessage();
+      // }
+    }
   }
 
   // Create a FocusNode to manage the focus of the text field.
