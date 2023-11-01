@@ -3,7 +3,7 @@ import 'package:oneid_mobile_app/components/primary_button.dart';
 import 'package:oneid_mobile_app/components/progress_bar.dart';
 import 'package:oneid_mobile_app/theme/colors.dart';
 
-import '../components/ReadOnlyTextField.dart';
+import '../components/read_only_text_field.dart';
 import 'apply_nic_2.dart';
 
 class ApplyNICScreen1 extends StatefulWidget {

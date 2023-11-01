@@ -1,142 +1,91 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:get/get.dart';
 import 'package:oneid_mobile_app/components/textField.dart';
+import 'package:oneid_mobile_app/controller/login_controller.dart';
 import 'package:oneid_mobile_app/theme/colors.dart';
 
-import '../models/login_req.dart';
-import '../services/snackbar_service.dart';
-
-class LoginScreen extends StatefulWidget {
+class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
-}
-
-class _LoginScreenState extends State<LoginScreen> {
-  //Text editing controllers
-  final emailController = TextEditingController();
-  final passwordController = TextEditingController();
-  bool isLoading = false;
-
-  //Sign user in method
-  void signUserIn() async {
-    if (emailController.text == '' || passwordController.text == '') {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-        content: Text('Please enter your email and password'),
-      ));
-      return;
-    }
-
-    setState(() {
-      isLoading = true;
-    });
-
-    LoginRequest loginRequest = LoginRequest(
-        email: emailController.text, password: passwordController.text);
-
-    // var res = await ApiMiddleware(context).sendRequest(
-    //     requestType: RequestType.post,
-    //     endpoint: constants.loginEndpoint,
-    //     data: loginRequestToJson(loginRequest));
-
-    SnackBarService snackBarService = SnackBarService(context);
-
-    if (true) {
-      setState(() {
-        isLoading = false;
-      });
-      if (true) {
-        // delay for 1 sec
-        await Future.delayed(const Duration(seconds: 1));
-
-        snackBarService.showSuccessMessage(content: 'Login successful');
-        Navigator.popUntil(context, (route) => route.isFirst);
-
-        SystemSound.play(SystemSoundType.click);
-      }
-      // } else if (res.statusCode == 401) {
-      //   snackBarService.showErrorMessage(
-      //       content: 'Login credentials invalid');
-      // } else if (res.statusCode == 403) {
-      //   snackBarService.showWarningMessage(
-      //       content: 'Login email is not valid');
-      // } else {
-      //   snackBarService.showErrorMessage();
-      // }
-    }
-  }
-
-  // Create a FocusNode to manage the focus of the text field.
-  FocusNode _focusNode = FocusNode();
-
-  @override
-  void dispose() {
-    super.dispose();
-    _focusNode.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
+    LoginController controller = Get.put(LoginController());
+
     return GestureDetector(
       onTap: () {
         //Hide keyboard when user taps outside of textfield
         FocusScope.of(context).requestFocus(FocusNode());
       },
       child: Scaffold(
-          appBar: AppBar(
-            backgroundColor: Colors.white,
-            elevation: 0,
-            leading: IconButton(
-              icon: const Icon(Icons.arrow_back_ios),
-              color: Colors.blue.shade900,
-              onPressed: () {
-                Navigator.popAndPushNamed(context, '/welcome');
-              },
-            ),
+        appBar: AppBar(
+          backgroundColor: Colors.white,
+          elevation: 0,
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back_ios),
+            color: OneIDColor.darkBlue,
+            onPressed: () {
+              Get.offAllNamed('/welcome');
+            },
           ),
-          body: SafeArea(
-              child: Center(
+        ),
+        body: SafeArea(
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
-              child: Column(children: [
-                //Welcome Text
-                const SizedBox(height: 24),
-                const Text(
-                  'Sign in to OneID',
-                  style: TextStyle(
-                    color: OneIDColor.primaryColor,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 24,
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
+          child: SingleChildScrollView(
+            child:
+                Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+              const SizedBox(height: 24),
+              const Column(
+                children: [
+                  Text(
+                    "Sign in to OneID",
+                    textAlign: TextAlign.left,
+                    style: TextStyle(
+                      color: OneIDColor.primaryColor,
+                      fontSize: 24,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
-                ),
+                  SizedBox(height: 12.0),
+                  Text(
+                    "Sign in to access all your IDs",
+                    textAlign: TextAlign.left,
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 40),
 
-                const SizedBox(height: 40),
+              //Email text-field
+              MyTextField(
+                controller: controller.emailController,
+                labelText: 'Email address',
+                obscureText: false,
+              ),
 
-                //Email textfield
-                MyTextField(
-                  controller: emailController,
-                  labelText: 'Email address',
-                  obscureText: false,
-                ),
+              const SizedBox(height: 24),
 
-                const SizedBox(height: 24),
+              //Password text-field
+              MyTextField(
+                controller: controller.passwordController,
+                labelText: 'Password',
+                obscureText: true,
+              ),
 
-                //Password textfield
-                MyTextField(
-                  controller: passwordController,
-                  labelText: 'Password',
-                  obscureText: true,
-                ),
+              const SizedBox(height: 40),
 
-                const SizedBox(height: 40),
-
-                //Login Button
-                SizedBox(
-                    width: double.infinity,
-                    child: ElevatedButton(
-                        onPressed: isLoading ? null : signUserIn,
+              //Login Button
+              SizedBox(
+                  width: double.infinity,
+                  child: Obx(
+                    () => ElevatedButton(
+                        onPressed: controller.isLoginLoading.value
+                            ? null
+                            : controller.login,
                         style: ElevatedButton.styleFrom(
                           elevation: 1,
                           shape: RoundedRectangleBorder(
@@ -144,7 +93,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                           padding: const EdgeInsets.symmetric(vertical: 16),
                         ),
-                        child: isLoading
+                        child: controller.isLoginLoading.value
                             ? const SpinKitFadingCircle(
                                 size: 20,
                                 color: Colors.white,
@@ -154,60 +103,67 @@ class _LoginScreenState extends State<LoginScreen> {
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold,
                                   fontSize: 16,
-                                )))),
+                                ))),
+                  )),
 
-                const SizedBox(height: 20),
+              const SizedBox(height: 20),
 
+              TextButton(
+                  style: ButtonStyle(
+                      padding: MaterialStateProperty.all(
+                          const EdgeInsets.symmetric(
+                              vertical: 0, horizontal: 16)),
+                      visualDensity: VisualDensity.standard,
+                      tapTargetSize: MaterialTapTargetSize.shrinkWrap),
+                  onPressed: () {},
+                  child: const Text(
+                    'Forgot Password?',
+                    style: TextStyle(
+                      color: OneIDColor.darkGrey,
+                      fontSize: 14,
+                    ),
+                  )),
+            ] //Children
+                    ),
+          ),
+        )),
+        bottomNavigationBar: BottomAppBar(
+          elevation: 0,
+          color: OneIDColor.white,
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(0, 8, 0, 0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text(
+                  "Don't have an account? ",
+                  style: TextStyle(
+                    color: OneIDColor.darkGrey,
+                    fontSize: 14,
+                  ),
+                ),
                 TextButton(
                     style: ButtonStyle(
                         padding: MaterialStateProperty.all(
-                            EdgeInsets.symmetric(vertical: 0, horizontal: 16)),
-                        visualDensity: VisualDensity.standard,
+                            const EdgeInsets.symmetric(
+                                vertical: 0, horizontal: 4)),
+                        visualDensity: VisualDensity.compact,
                         tapTargetSize: MaterialTapTargetSize.shrinkWrap),
-                    onPressed: () {},
+                    onPressed: () {
+                      Get.toNamed('/register');
+                    },
                     child: const Text(
-                      'Forgot Password?',
+                      'Sign up',
                       style: TextStyle(
-                        color: OneIDColor.darkGrey,
+                        color: OneIDColor.primaryColor,
                         fontSize: 14,
                       ),
-                    )),
-
-                Expanded(
-                    child: Align(
-                  alignment: FractionalOffset.bottomCenter,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Text(
-                        "Don't have an account? ",
-                        style: TextStyle(
-                          color: OneIDColor.darkGrey,
-                          fontSize: 14,
-                        ),
-                      ),
-                      TextButton(
-                          style: ButtonStyle(
-                              padding: MaterialStateProperty.all(
-                                  const EdgeInsets.symmetric(
-                                      vertical: 0, horizontal: 4)),
-                              visualDensity: VisualDensity.compact,
-                              tapTargetSize: MaterialTapTargetSize.shrinkWrap),
-                          onPressed: () {},
-                          child: const Text(
-                            'Sign up',
-                            style: TextStyle(
-                              color: OneIDColor.primaryColor,
-                              fontSize: 14,
-                            ),
-                          ))
-                    ],
-                  ),
-                ))
-              ] //Children
-                  ),
+                    ))
+              ],
             ),
-          ))),
+          ),
+        ),
+      ),
     );
   }
 }

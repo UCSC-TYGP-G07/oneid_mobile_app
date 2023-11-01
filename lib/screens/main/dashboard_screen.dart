@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:oneid_mobile_app/components/id_card.dart';
 import 'package:oneid_mobile_app/components/searchField.dart';
 import 'package:oneid_mobile_app/screens/verify_id_screen.dart';
 import 'package:oneid_mobile_app/theme/colors.dart';
+
+import '../../controller/user_controller.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({Key? key}) : super(key: key);
@@ -13,6 +16,8 @@ class DashboardScreen extends StatefulWidget {
 
 class _Dashboard extends State<DashboardScreen> {
   final searchController = TextEditingController();
+  final UserController userController =
+      Get.find<UserController>(); // Replace with your actual controller
 
   @override
   Widget build(BuildContext context) {
@@ -34,22 +39,38 @@ class _Dashboard extends State<DashboardScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text(
-                        'Good Morning Masha!',
-                        style: TextStyle(
-                          color: OneIDColor.primaryColor,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20,
-                        ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Text(
+                            '${getGreeting()}${userController.user.value!.firstName} ${userController.user.value?.lastName}',
+                            style: const TextStyle(
+                              color: OneIDColor.primaryColor,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20,
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 4,
+                          ),
+                          const Text(
+                            'Welcome to OneID',
+                            style: TextStyle(
+                              color: OneIDColor.darkGrey,
+                              fontSize: 14,
+                            ),
+                          ),
+                        ],
                       ),
                       GestureDetector(
                         onTap: () {
-                          Navigator.pushNamed(context, '/profile');
+                          Get.toNamed('/profile');
                         },
-                        child: const CircleAvatar(
+                        child: CircleAvatar(
                           radius: 20,
-                          backgroundImage:
-                              AssetImage('assets/images/pro-pic.jpeg'),
+                          backgroundImage: NetworkImage(
+                              "https://ui-avatars.com/api/?name=${userController.user.value!.firstName}+${userController.user.value?.lastName}&background=0D8ABC&color=fff"),
                         ),
                       ),
                     ],
@@ -98,7 +119,8 @@ class _Dashboard extends State<DashboardScreen> {
                           child: IDCard(
                             idType: 'Driving License',
                             refNum: '#13j894nk',
-                            applicantName: 'Masha Nilushi Pupulewatte',
+                            applicantName:
+                                '${userController.user.value!.firstName} ${userController.user.value!.lastName}',
                             nic: '996280373V',
                             approvalStatus: 'In progress',
                           ),
@@ -128,20 +150,20 @@ class _Dashboard extends State<DashboardScreen> {
                           borderRadius: BorderRadius.circular(16.0),
                           border: Border.all(color: Colors.grey),
                         ),
-                        child: Column(
+                        child: const Column(
                           children: [
-                            const SizedBox(
+                            SizedBox(
                               height: 16,
                             ),
-                            const Icon(
+                            Icon(
                               Icons.person,
                               color: OneIDColor.primaryColor,
                               size: 64,
                             ),
-                            const SizedBox(
+                            SizedBox(
                               height: 16,
                             ),
-                            const Text(
+                            Text(
                               'Share my ID',
                               style: TextStyle(
                                   color: Colors.black,
@@ -203,5 +225,17 @@ class _Dashboard extends State<DashboardScreen> {
         ),
       ),
     );
+  }
+
+  String getGreeting() {
+    final hour = DateTime.now().hour;
+
+    if (hour >= 0 && hour < 12) {
+      return 'Good Morning,';
+    } else if (hour >= 12 && hour < 17) {
+      return 'Good Afternoon,';
+    } else {
+      return 'Good Evening,';
+    }
   }
 }

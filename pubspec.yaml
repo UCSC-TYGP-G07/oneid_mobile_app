@@ -55,6 +55,7 @@ dependencies:
   stacked_card_carousel: ^0.0.4
   percent_indicator: ^4.2.3
   mobile_scanner: ^3.5.2
+  get: ^4.6.6
 
 dev_dependencies:
   flutter_test:

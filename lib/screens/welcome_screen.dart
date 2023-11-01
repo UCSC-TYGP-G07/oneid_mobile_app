@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:oneid_mobile_app/screens/verify_id_screen.dart';
+import 'package:get/get.dart';
 import 'package:oneid_mobile_app/theme/colors.dart';
 
 import '../components/primary_button.dart';
@@ -52,7 +52,7 @@ class WelcomeScreen extends StatelessWidget {
                           child: PrimaryButton(
                             buttonText: 'Login',
                             onTap: () {
-                              Navigator.pushReplacementNamed(context, '/login');
+                              Get.toNamed('/login');
                             },
                           ),
                         ),
@@ -76,11 +76,7 @@ class WelcomeScreen extends StatelessWidget {
                           child: PrimaryButton(
                             buttonText: 'Verify ID',
                             onTap: () {
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (context) => const VerifyIDScreen(),
-                                ),
-                              );
+                              Get.toNamed('/verify-id');
                             },
                             color: OneIDColor.secondaryColor,
                           ),
@@ -103,7 +99,9 @@ class WelcomeScreen extends StatelessWidget {
                         SizedBox(
                           child: SecondaryButton(
                             buttonText: 'Register',
-                            onTap: () {},
+                            onTap: () {
+                              Get.toNamed('/register');
+                            },
                           ),
                         ),
                         const SizedBox(

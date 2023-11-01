@@ -1,92 +1,157 @@
+import 'dart:async';
+import 'dart:io';
+
 import 'package:flutter/foundation.dart';
-import 'package:http/http.dart' as http;
-import 'package:oneid_mobile_app/util/constants.dart' as constants;
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:oneid_mobile_app/theme/colors.dart';
+import 'package:oneid_mobile_app/util/constants.dart';
 
-class ApiService {
-  final int _timeout = 60;
-  String _authCookie = "";
+import 'auth_service.dart';
 
-  Future<http.Response?> getData(String endpoint, bool isAuthorized) async {
-    Uri uri = Uri.parse(constants.baseUrl + endpoint);
+class ApiService extends GetConnect {
+  final AuthService _authService =
+      Get.find(); // Get a reference to the AuthService
 
+  @override
+  void onInit() {
+    super.onInit();
+    httpClient.baseUrl = baseUrl;
+    httpClient.timeout = const Duration(seconds: 10);
+  }
+
+  // Function to send a GET request
+  Future<Response<T>> sendGetRequest<T>(
+    bool isAuthRequired,
+    String endpoint, {
+    Map<String, String>? headers = const {
+      'Content-Type': 'application/json',
+    },
+    Map<String, dynamic>? query = const {},
+    T Function(dynamic)? decoder,
+  }) async {
     try {
-      http.Response response = await http
-          .get(uri,
-              headers:
-                  isAuthorized ? await _setHeadersWithAuth() : _setHeaders())
-          .timeout(Duration(seconds: _timeout));
+      final response = await get(
+        baseUrl + endpoint,
+        headers: {
+          ...headers ?? {},
+          // Keep any existing headers
+          if (isAuthRequired)
+            'Authorization': 'Bearer ${_authService.getBearerToken()}',
+          // Add the bearer token header
+        },
+        query: query,
+        decoder: decoder,
+      );
+
       if (kDebugMode) {
-        print(response.body);
+        print(response);
       }
-      // checkTokenExpiryAndForceLogout(response);
+
+      if (isAuthRequired && response.statusCode == 401) {
+        throw ForceLogoutException("Error: 401 Unauthorized");
+      }
+
       return response;
-    } on Exception catch (e) {
+    } catch (error) {
+      _handleError(error);
+      rethrow;
+    }
+  }
+
+  // Function to send a POST request
+  Future<Response<T>?> sendPostRequest<T>(
+    bool isAuthRequired,
+    String endpoint, {
+    dynamic data,
+    Map<String, String>? headers = const {
+      'Content-Type': 'application/json',
+    },
+    Map<String, dynamic>? query = const {},
+    T Function(dynamic)? decoder,
+  }) async {
+    try {
+      final response = await post(
+        baseUrl + endpoint,
+        data,
+        headers: {
+          ...headers ?? {},
+          // Keep any existing headers
+          if (isAuthRequired)
+            'Authorization': 'Bearer ${_authService.getBearerToken()}',
+          // Add the bearer token header
+        },
+        query: query,
+        decoder: decoder,
+      );
+
       if (kDebugMode) {
-        print(e);
+        print(response.statusCode);
       }
+
+      if (response.statusCode == null) {
+        throw Exception("No response, check your internet connection");
+      }
+      //
+      // if (response.statusCode == 400) {
+      //   throw Exception("Please check your inputs");
+      // }
+
+      if (isAuthRequired && response.statusCode == 401) {
+        throw ForceLogoutException("Unauthorized");
+      }
+
+      return response;
+    } catch (error) {
+      _handleError(error);
+      // rethrow;
       return null;
     }
   }
 
-  Future<http.Response?> postData(
-      data, String endpoint, bool isAuthorized) async {
-    Uri uri = Uri.parse(constants.baseUrl + endpoint);
-    try {
-      http.Response response = await http
-          .post(uri,
-              body: data,
-              headers:
-                  isAuthorized ? await _setHeadersWithAuth() : _setHeaders())
-          .timeout(Duration(seconds: _timeout));
-      // if (endpoint == constants.loginEndpoint) updateCookie(response);
+  void _handleError(dynamic error) {
+    if (error is SocketException) {
+      // Handle network/socket errors
+      Get.snackbar(
+        'Error',
+        'Network error occurred',
+        colorText: OneIDColor.white,
+      );
+    } else if (error is TimeoutException) {
+      // Handle timeout errors
+      Get.snackbar(
+        'Error',
+        'Request timed out',
+        colorText: OneIDColor.white,
+      );
+    } else {
       if (kDebugMode) {
-        print(data);
-        print(response.body);
+        print(error);
       }
-      // checkTokenExpiryAndForceLogout(response);
-      return response;
-    } on Exception catch (e) {
-      if (kDebugMode) {
-        print(e);
+      // Handle other errors
+
+      Get.snackbar(
+        'Error',
+        error.toString().replaceAll('Exception: ', ''),
+        backgroundColor: Colors.black.withOpacity(0.7),
+        colorText: OneIDColor.white,
+      );
+
+      // Check if the error indicates a need for force logout
+      if (error is ForceLogoutException) {
+        _authService.forceLogout();
       }
-      return null;
     }
   }
+}
 
-  // void checkTokenExpiryAndForceLogout(http.Response response){
-  //   if(response.statusCode == 401){
-  //     print("Token expired !!!");
-  //     Navigator.of(context, rootNavigator: true).push(
-  //       MaterialPageRoute(
-  //         builder: (context) => const SubmitTestimonialScreen(),
-  //       ),
-  //     );
-  //     ExitAppDialog();
-  //   }
-  // }
+class ForceLogoutException implements Exception {
+  final String message;
 
-  Future<String> getToken() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getString('token') ?? "";
+  ForceLogoutException(this.message);
+
+  @override
+  String toString() {
+    return 'ForceLogoutException: $message';
   }
-
-  void updateCookie(http.Response response) {
-    String? rawCookie = response.headers['set-cookie'];
-    if (rawCookie != null) {
-      _authCookie = rawCookie;
-    }
-  }
-
-  _setHeaders() => {
-        'Content-type': 'application/json',
-        'Accept': 'application/json',
-      };
-
-  _setHeadersWithAuth() async => {
-        'Content-type': 'application/json',
-        'Accept': 'application/json',
-        'Authorization': 'Bearer ${await getToken()}',
-        'Cookie': _authCookie,
-      };
 }
