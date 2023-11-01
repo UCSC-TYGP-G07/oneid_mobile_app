@@ -7,7 +7,8 @@ class OneIDColor {
   static const Color tertiaryColor = Color(0xFFAEB8FE);
   static const Color accentColor = Color(0xFFFF8600);
 
-  static const Color black = Color(0xFF040405);
+  static const Color white = Color(0xFFFFFFFF);
+  static const Color black = Color(0xFF000000);
   static const Color lightBlack = Color(0xFF3E404D);
   static const Color grey = Color(0xFF9D99A7);
   static const Color lightGrey = Color(0xFFF1F2F6);
