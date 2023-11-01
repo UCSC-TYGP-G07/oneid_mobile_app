@@ -17,6 +17,8 @@ import 'package:oneid_mobile_app/services/api_service.dart';
 import 'package:oneid_mobile_app/services/auth_service.dart';
 import 'package:oneid_mobile_app/theme/app_theme.dart';
 
+import 'controller/user_controller.dart';
+
 void main() {
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
     statusBarColor: Colors.transparent,
@@ -35,6 +37,7 @@ class MyApp extends StatelessWidget {
     Get.put(AuthService());
     Get.put(ApiService());
     Get.put(RegisterController());
+    Get.lazyPut(() => UserController());
 
     AuthService authService = Get.put<AuthService>(AuthService());
     authService.init();

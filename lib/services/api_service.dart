@@ -48,7 +48,7 @@ class ApiService extends GetConnect {
         print(response);
       }
 
-      if (response.statusCode == 401) {
+      if (isAuthRequired && response.statusCode == 401) {
         throw ForceLogoutException("Error: 401 Unauthorized");
       }
 
@@ -97,7 +97,7 @@ class ApiService extends GetConnect {
       //   throw Exception("Please check your inputs");
       // }
 
-      if (response.statusCode == 401) {
+      if (isAuthRequired && response.statusCode == 401) {
         throw ForceLogoutException("Unauthorized");
       }
 

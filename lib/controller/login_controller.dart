@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:oneid_mobile_app/controller/user_controller.dart';
 import 'package:oneid_mobile_app/theme/colors.dart';
 
 import '../models/login_req.dart';
@@ -94,12 +95,16 @@ class LoginController extends GetxController {
         LoginResponse loginResponse = LoginResponse.fromJson(response.body);
 
         final authService = Get.find<AuthService>();
-        authService.setUserEmail(loginResponse.email);
+        authService.setUserEmail(loginResponse.user.email);
         authService.setAuthentication(true);
         authService.updateBearerToken(loginResponse.accessToken);
 
+        // save user data in getX state
+        final userController = Get.find<UserController>();
+        userController.setUser(loginResponse.user);
+
         // Redirect after 1 second
-        Future.delayed(Duration(seconds: 1), () {
+        Future.delayed(const Duration(seconds: 1), () {
           isLoginLoading.value = false;
           Get.offAllNamed('/main');
         });
