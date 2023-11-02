@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:oneid_mobile_app/components/profile_button.dart';
 import 'package:oneid_mobile_app/screens/login_screen.dart';
+
+import '../controller/user_controller.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key? key}) : super(key: key);
@@ -11,6 +14,8 @@ class ProfileScreen extends StatefulWidget {
 
 class _Profile extends State<ProfileScreen> {
   final searchController = TextEditingController();
+  final UserController userController =
+      Get.find<UserController>(); // Replace with your actual controller
 
   @override
   Widget build(BuildContext context) {
@@ -55,12 +60,12 @@ class _Profile extends State<ProfileScreen> {
                         children: [
                           Container(
                             alignment: Alignment.centerLeft,
-                            child: const Stack(
+                            child: Stack(
                               children: [
                                 CircleAvatar(
-                                  backgroundImage:
-                                      AssetImage('assets/images/pro-pic.jpeg'),
-                                  radius: 40,
+                                  radius: 20,
+                                  backgroundImage: NetworkImage(
+                                      "https://ui-avatars.com/api/?name=${userController.user.value!.firstName}+${userController.user.value?.lastName}"),
                                 ),
                               ],
                             ),
@@ -68,9 +73,9 @@ class _Profile extends State<ProfileScreen> {
                           const SizedBox(
                             width: 20,
                           ),
-                          const Text(
-                            'Ms. Pupulewatte',
-                            style: TextStyle(
+                          Text(
+                            '${userController.user.value!.firstName} ${userController.user.value!.lastName}',
+                            style: const TextStyle(
                               color: Colors.black,
                               fontSize: 20,
                             ),

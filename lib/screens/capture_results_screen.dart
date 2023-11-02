@@ -2,10 +2,12 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:oneid_mobile_app/components/primary_button.dart';
 import 'package:oneid_mobile_app/screens/photo_capture_screen.dart';
+import 'package:oneid_mobile_app/util/constants.dart';
 
 import '../components/secondary_button.dart';
 import '../theme/colors.dart';
@@ -21,15 +23,28 @@ class CaptureResultsScreen extends StatefulWidget {
 }
 
 class _CaptureResults extends State<CaptureResultsScreen> {
+  Map<String, String> testMessages = {
+    "too_dark_or_light": "Photo should not be too dark or too light",
+    "geometry": "Face should have correct dimensions",
+    "blurring": "Photo should not be blurred",
+    "varied_bg": "Background should be plain colored",
+    "eyes_closed": "Both eyes should be open",
+    "looking_away": "The subject should look straight at the camera",
+    "shadows_across_face": "No shadows should be present across the face",
+    "mouth_open": "Mouth should be closed and have a suitable expression",
+    "redeye": "There should be no red-eye visible in the photo",
+    "hair_across_eyes": "There should be no hair across eyes",
+    "illumination_intensity": "The face should be evenly lit",
+    "hat_or_cap": "The subject should not be wearing hats/caps",
+  };
+
   bool isComplete = false;
   String photoFilePath = "";
   bool isUploading = false;
   bool isUploaded = false;
   bool isFailed = false;
-  bool isBlurred = false;
-  bool isVariedBackground = false;
   String responseMessage = "";
-  bool isFinalizing = true;
+  Map<String, dynamic> testResults = {};
 
   void _showSuccessDialog(BuildContext context) {
     showDialog(
@@ -71,8 +86,8 @@ class _CaptureResults extends State<CaptureResultsScreen> {
       isUploading = true;
     });
 
-    var request = http.MultipartRequest(
-        'POST', Uri.parse('http://54.151.252.33:8100/validate_icao'));
+    var request =
+        http.MultipartRequest('POST', Uri.parse('${icaoValidationUrl}'));
 
     //File imageFile = File(widget.photoPath);
     // var imageUploadRequest = http.MultipartFile.fromPath('image', imageFile.path);
@@ -97,7 +112,12 @@ class _CaptureResults extends State<CaptureResultsScreen> {
         isUploading = false;
         isUploaded = true;
       });
-      print('Image uploaded successfully');
+      Get.snackbar(
+        'Success',
+        'Image uploaded and processed successfully',
+        backgroundColor: Colors.green.withOpacity(0.9),
+        colorText: OneIDColor.white,
+      );
 
       // Convert the response stream to a string
       var responseString = await response.stream.bytesToString();
@@ -105,12 +125,7 @@ class _CaptureResults extends State<CaptureResultsScreen> {
       // Parse the JSON response
       var jsonResponse = json.decode(responseString);
 
-      // Extract the "message" property
-      // var message = jsonResponse['is_icao_compliant'];
-      //
-      // setState(() {
-      //   responseMessage = "All checks passed";
-      // });
+      testResults = jsonResponse['tests'];
 
       print(jsonResponse);
 
@@ -124,29 +139,9 @@ class _CaptureResults extends State<CaptureResultsScreen> {
         setState(() {
           isComplete = true;
           isFailed = true;
-          responseMessage = jsonResponse['tests'].toString();
+          responseMessage = "Some checks failed";
         });
       }
-      //
-      // if (jsonResponse['tests']['geometry']['is_passed'] == true) {
-      //   setState(() {
-      //     isBlurred = true;
-      //   });
-      // } else {
-      //   setState(() {
-      //     isBlurred = false;
-      //   });
-      // }
-      //
-      // if (jsonResponse['tests']['varied_bg']['is_passed'] == true) {
-      //   setState(() {
-      //     isVariedBackground = true;
-      //   });
-      // } else {
-      //   setState(() {
-      //     isVariedBackground = false;
-      //   });
-      // }
     } else {
       setState(() {
         isUploading = false;
@@ -169,106 +164,172 @@ class _CaptureResults extends State<CaptureResultsScreen> {
         elevation: 1,
         backgroundColor: Colors.white,
         title: const Text(
-          'NIC Photo Check',
+          'ICAO Compliance Check',
           style: TextStyle(
             color: Colors.black,
+            fontWeight: FontWeight.w600,
           ),
         ),
       ),
-      body: Column(
-        children: [
-          Center(
-            child: Padding(
-              padding: const EdgeInsets.all(32.0),
-              child: Container(
-                height: isComplete && isFailed ? 350 : 400,
+      body: CustomScrollView(
+        slivers: <Widget>[
+          SliverAppBar(
+            expandedHeight: isComplete && isFailed ? 350 : 400,
+            flexibleSpace: FlexibleSpaceBar(
+              background: Container(
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8.0),
-                  // Add a border radius
-                  border:
-                      Border.all(color: OneIDColor.grey), // Add a border color
+                  borderRadius: BorderRadius.circular(24.0),
                 ),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(6.0),
-                  // Clip content to border radius
-                  child: Image.file(File(widget.photoPath)),
-                ),
+                child: Image.file(File(widget.photoPath)),
               ),
             ),
           ),
-          const SizedBox(
-            height: 12,
-          ),
-          !isUploaded
-              ? Column(
-                  children: [
-                    const SpinKitFadingCircle(
-                      color: OneIDColor.primaryColor,
-                      size: 60.0,
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    Text(
-                      isUploading ? 'Uploading...' : 'Processing...',
-                      style: const TextStyle(
-                        color: OneIDColor.primaryColor,
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
+          SliverList(
+            delegate: SliverChildListDelegate([
+              const SizedBox(
+                height: 12,
+              ),
+              isUploaded
+                  ? SingleChildScrollView(
+                      child: Column(
+                        children: testResults.entries.map((entry) {
+                          final testName = entry.key
+                              .split('_')
+                              .map((word) =>
+                                  word[0].toUpperCase() + word.substring(1))
+                              .join(' ');
+                          final testResult = entry.value['is_passed'];
+                          final message = testMessages[entry.key] ?? "";
+                          final timeTaken =
+                              entry.value['time_elapsed'] as double;
+
+                          return Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 24.0, vertical: 4.0),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                GestureDetector(
+                                  onTap: () {
+                                    // Show a tooltip indicating if the test passed or failed
+                                    final testResult = entry.value['is_passed'];
+                                    final resultText =
+                                        testResult ? 'Passed' : 'Failed';
+                                    final tooltipMessage =
+                                        '$testName Test: $resultText';
+
+                                    HapticFeedback.mediumImpact();
+
+                                    Get.snackbar(
+                                      'Test Result',
+                                      tooltipMessage,
+                                      duration: const Duration(seconds: 2),
+                                      backgroundColor: testResult
+                                          ? Colors.green.withOpacity(0.9)
+                                          : Colors.red.withOpacity(0.9),
+                                      colorText: OneIDColor.white,
+                                    );
+                                  },
+                                  child: Container(
+                                    alignment: Alignment.center,
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Icon(
+                                          testResult
+                                              ? Icons.check_circle
+                                              : Icons.cancel,
+                                          color: testResult
+                                              ? Colors.green
+                                              : Colors.red,
+                                          size: 24.0,
+                                        ),
+                                        SizedBox(width: 8),
+                                        Text(
+                                          testName + " Test",
+                                          style: TextStyle(
+                                            color: testResult
+                                                ? Colors.green
+                                                : Colors.red,
+                                            fontSize: 17,
+                                            fontWeight: FontWeight.w800,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(height: 5),
+                                Container(
+                                  alignment: Alignment.center,
+                                  child: Text(
+                                    message,
+                                    style: TextStyle(
+                                      color: OneIDColor.darkGrey,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(height: 6),
+                                Container(
+                                  alignment: Alignment.center,
+                                  child: Text(
+                                    '(Time taken: ${timeTaken.toStringAsFixed(2)} seconds)',
+                                    style: TextStyle(
+                                      color: OneIDColor.lightBlue,
+                                      fontSize: 12,
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 14,
+                                ),
+                                Divider(
+                                  color: OneIDColor.grey,
+                                  height: 1,
+                                ),
+                                SizedBox(
+                                  height: 4,
+                                )
+                              ],
+                            ),
+                          );
+                        }).toList(),
                       ),
                     )
-                  ],
-                )
-              : Column(
-                  children: [
-                    Icon(
-                      isFailed ? Icons.cancel : Icons.check_circle,
-                      color: isFailed ? Colors.red : Colors.green,
-                      size: 60.0,
-                    ),
-                    const SizedBox(
-                      height: 18,
-                    ),
-                    Text(
-                      responseMessage,
-                      style: TextStyle(
-                        color: isFailed ? Colors.red : Colors.green,
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    isComplete && isFailed
-                        ? Column(
-                            children: [
-                              const SizedBox(
-                                height: 16,
+                  : const Column(
+                      children: [
+                        SizedBox(height: 24),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            SizedBox(
+                              width: 24,
+                              height: 24,
+                              child: CircularProgressIndicator(
+                                color: OneIDColor.primaryColor,
                               ),
-                              isVariedBackground
-                                  ? const Text(
-                                      'Use a plain coloured background',
-                                      style: TextStyle(
-                                        color: OneIDColor.darkGrey,
-                                        fontSize: 16,
-                                      ),
-                                    )
-                                  : Container(),
-                              const SizedBox(
-                                height: 4,
+                            ),
+                            SizedBox(height: 16),
+                            Text(
+                              'Image is processing...',
+                              style: TextStyle(
+                                color: OneIDColor.primaryColor,
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
                               ),
-                              isBlurred
-                                  ? const Text(
-                                      'Make sure the image is not blurred',
-                                      style: TextStyle(
-                                        color: OneIDColor.darkGrey,
-                                        fontSize: 16,
-                                      ),
-                                    )
-                                  : Container(),
-                            ],
-                          )
-                        : Container(),
-                  ],
-                ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+              SizedBox(height: 12),
+            ]),
+          ),
         ],
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
@@ -303,12 +364,13 @@ class _CaptureResults extends State<CaptureResultsScreen> {
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 12.0),
                   child: PrimaryButton(
-                      buttonText: 'Finish and Submit',
-                      onTap: isComplete && !isFailed
-                          ? () {
-                              _showSuccessDialog(context);
-                            }
-                          : null),
+                    buttonText: 'Finish and Submit',
+                    onTap: isComplete && !isFailed
+                        ? () {
+                            _showSuccessDialog(context);
+                          }
+                        : null,
+                  ),
                 ),
               ),
             ],

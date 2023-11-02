@@ -47,7 +47,11 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>LSApplicationCategoryType</key>
+	<string></string>
 	<key>NSCameraUsageDescription</key>
 	<string>OneID requires access to your phone’s camera to capture photos and documents</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>OneID requires access to your photo library to select images</string>
 </dict>
 </plist>

@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_mlkit_face_detection/google_mlkit_face_detection.dart';
 import 'package:image/image.dart' as img;
+import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sn_progress_dialog/progress_dialog.dart';
@@ -116,6 +117,29 @@ class _CameraViewState extends State<CameraView> {
     super.dispose();
   }
 
+  void _openGallery() async {
+    final imagePicker = ImagePicker();
+    final pickedFile = await imagePicker.pickImage(source: ImageSource.gallery);
+
+    if (pickedFile != null) {
+      // Navigate to the next page with the selected image
+      // Navigator.push(
+      //   context,
+      //   MaterialPageRoute(
+      //     builder: (context) => CaptureResultsScreen(
+      //       photoPath: pickedFile.path,
+      //     ),
+      //   ),
+      // );
+
+      Future.delayed(const Duration(seconds: 1), () {
+        widget.progressDialog.close();
+        widget.setPhotoPath(pickedFile.path);
+        widget.handleCaptureDone(pickedFile.path);
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -139,7 +163,7 @@ class _CameraViewState extends State<CameraView> {
         ),
         actions: [
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            padding: const EdgeInsets.symmetric(horizontal: 6.0),
             child: IconButton(
                 color: OneIDColor.darkGrey,
                 onPressed: _switchCamera,
@@ -149,7 +173,19 @@ class _CameraViewState extends State<CameraView> {
                       : Icons.flip_camera_android,
                   size: 32,
                 )),
-          )
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 6.0),
+            child: IconButton(
+              color: OneIDColor.darkGrey,
+              onPressed: _openGallery,
+              // Add the onPressed handler for gallery button
+              icon: const Icon(
+                Icons.photo_library,
+                size: 32,
+              ),
+            ),
+          ),
         ],
       ),
       body: _liveFeedBody(),

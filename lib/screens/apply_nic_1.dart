@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:oneid_mobile_app/components/primary_button.dart';
 import 'package:oneid_mobile_app/components/progress_bar.dart';
+import 'package:oneid_mobile_app/models/login_res.dart';
 import 'package:oneid_mobile_app/theme/colors.dart';
 
 import '../components/read_only_text_field.dart';
+import '../controller/user_controller.dart';
 import 'apply_nic_2.dart';
 
 class ApplyNICScreen1 extends StatefulWidget {
@@ -15,11 +18,15 @@ class ApplyNICScreen1 extends StatefulWidget {
 
 class _ApplyNIC1 extends State<ApplyNICScreen1> {
   final searchController = TextEditingController();
+  final UserController userController = Get.find<UserController>();
+
   String? _selectedGender;
   DateTime? _selectedDate;
 
   @override
   Widget build(BuildContext context) {
+    User currentUser = userController.user.value!;
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -49,17 +56,17 @@ class _ApplyNIC1 extends State<ApplyNICScreen1> {
       ),
       body: SafeArea(
           child: Container(
-        color: Colors.grey.shade100,
-        child: const SingleChildScrollView(
+            color: Colors.grey.shade100,
+            child: SingleChildScrollView(
           child: Center(
             child: Padding(
-              padding: EdgeInsets.all(24.0),
+              padding: const EdgeInsets.all(24.0),
               child: Column(
                 children: [
-                  SizedBox(
+                  const SizedBox(
                     height: 16,
                   ),
-                  Text(
+                  const Text(
                     'Check your personal details',
                     textAlign: TextAlign.center,
                     style: TextStyle(
@@ -68,128 +75,128 @@ class _ApplyNIC1 extends State<ApplyNICScreen1> {
                       fontSize: 18,
                     ),
                   ),
-                  SizedBox(height: 4),
-                  Text(
+                  const SizedBox(height: 4),
+                  const Text(
                     'Visit Profile Settings to modify your personal details',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         color: OneIDColor.darkGrey, fontSize: 14, height: 1.5),
                   ),
 
-                  SizedBox(
+                  const SizedBox(
                     height: 40,
                   ),
 
                   //User details form
-                  Form(
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 0),
+                      Form(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 0),
                       child: Column(
                         children: [
-                          SizedBox(
+                          const SizedBox(
                             height: 12,
                           ),
                           ReadOnlyTextField(
                             labelText: 'Full Name',
-                            value: 'Masha Nilushi Pupulewaththe',
-                          ),
-                          SizedBox(
-                            height: 24,
-                          ),
-                          ReadOnlyTextField(
-                            labelText: 'Permanent Address',
                             value:
-                                'No. 123, Mala Kolang Lanthaya, Athurugiriya, Western, Sri Lanka',
+                                '${currentUser.firstName} ${currentUser.lastName}',
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 24,
                           ),
-                          ReadOnlyTextField(
+                              ReadOnlyTextField(
+                                labelText: 'Permanent Address',
+                            value: '${currentUser.permanentAddress}',
+                          ),
+                              const SizedBox(
+                            height: 24,
+                          ),
+                              const ReadOnlyTextField(
                             labelText: 'District',
                             value: 'Colombo',
                           ),
-                          SizedBox(
+                              const SizedBox(
                             height: 24,
                           ),
-                          Padding(
+                              const Padding(
                             padding: EdgeInsets.symmetric(horizontal: 120),
                             child: Divider(
                               color: OneIDColor.grey,
                             ),
                           ),
-                          SizedBox(
+                              const SizedBox(
                             height: 24,
                           ),
-                          ReadOnlyTextField(
-                            labelText: 'Date of Birth',
-                            value: '01-04-1999',
+                              ReadOnlyTextField(
+                                labelText: 'Date of Birth',
+                            value: '${currentUser.permanentAddress}',
                           ),
-                          SizedBox(
+                              const SizedBox(
                             height: 24,
                           ),
-                          ReadOnlyTextField(
-                            labelText: 'Place of Birth',
-                            value: 'Colombo',
+                              ReadOnlyTextField(
+                                labelText: 'Place of Birth',
+                            value: '${currentUser.birthPlace}',
                           ),
-                          SizedBox(
+                              const SizedBox(
                             height: 24,
                           ),
-                          Padding(
+                              const Padding(
                             padding: EdgeInsets.symmetric(horizontal: 120),
                             child: Divider(
                               color: OneIDColor.grey,
                             ),
                           ),
-                          SizedBox(
+                              const SizedBox(
                             height: 24,
                           ),
-                          ReadOnlyTextField(
-                            labelText: 'Gender',
-                            value: 'Female',
+                              ReadOnlyTextField(
+                                labelText: 'Gender',
+                            value: '${currentUser.gender}',
                           ),
-                          SizedBox(
+                              const SizedBox(
                             height: 36,
                           ),
-                          ReadOnlyTextField(
-                            labelText: 'Profession / Occupation / Job',
-                            value: 'Astronaut',
+                              ReadOnlyTextField(
+                                labelText: 'Profession / Occupation / Job',
+                            value: '${currentUser.occupation}',
                           ),
-                          SizedBox(
+                              const SizedBox(
                             height: 24,
                           ),
-                          Padding(
+                              const Padding(
                             padding: EdgeInsets.symmetric(horizontal: 120),
                             child: Divider(
                               color: OneIDColor.grey,
                             ),
                           ),
-                          SizedBox(
+                              const SizedBox(
                             height: 24,
                           ),
-                          ReadOnlyTextField(
-                            labelText: 'Phone number',
-                            value: '+94 (76) 339 7994',
+                              ReadOnlyTextField(
+                                labelText: 'Phone number',
+                            value: '${currentUser.phoneNumber}',
                           ),
-                          SizedBox(
+                              const SizedBox(
                             height: 24,
                           ),
-                          ReadOnlyTextField(
-                            labelText: 'Email address',
-                            value: 'mashanilushi@gmail.com',
+                              ReadOnlyTextField(
+                                labelText: 'Email address',
+                            value: '${currentUser.email}',
                           ),
-                          SizedBox(
+                              const SizedBox(
                             height: 12,
                           ),
-                        ],
+                            ],
+                          ),
+                        ),
                       ),
-                    ),
+                    ],
                   ),
-                ],
+                ),
               ),
             ),
-          ),
-        ),
-      )),
+          )),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: BottomAppBar(
         height: 85,
@@ -208,10 +215,9 @@ class _ApplyNIC1 extends State<ApplyNICScreen1> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) =>
-                              const ApplyNICScreen2(
-                                birthCertFilePath: null,
-                              )));
+                              builder: (context) => const ApplyNICScreen2(
+                                    birthCertFilePath: null,
+                                  )));
                     },
                   ),
                 ),

@@ -15,17 +15,17 @@ class _Wallet extends State<IDWalletScreen> {
   final List<Widget> fancyCards = <Widget>[
     FancyCard(
       image: Image.asset(
-        "assets/images/pro-pic.jpeg",
+        "assets/images/pro-pic-2.jpeg",
         height: 100,
       ),
       title: "Driving License",
     ),
     FancyCard(
-      image: Image.asset("assets/images/pro-pic.jpeg"),
+      image: Image.asset("assets/images/pro-pic-2.jpeg"),
       title: "NIC Card",
     ),
     FancyCard(
-      image: Image.asset("assets/images/pro-pic.jpeg"),
+      image: Image.asset("assets/images/pro-pic-2.jpeg"),
       title: "UCSC Student ID",
     ),
   ];
@@ -114,7 +114,7 @@ class FancyCard extends StatelessWidget {
                                 style: TextStyle(fontSize: 15),
                               ),
                               Text(
-                                'Masha Nilushi',
+                                'Sandul Renuja',
                                 style: TextStyle(
                                     fontSize: 15,
                                     fontWeight: FontWeight.bold,

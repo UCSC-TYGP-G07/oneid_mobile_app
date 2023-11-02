@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import '../models/login_res.dart';
 
 class UserController extends GetxController {
-  Rx<User?> user = null.obs;
+  Rx<User?> user = Rx<User?>(null);
 
   // Method to set user data
   void setUser(User? newUser) {
